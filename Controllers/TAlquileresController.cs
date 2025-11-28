@@ -63,12 +63,13 @@ namespace ProyectoPrograAvanzada.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdAlquiler,FechaInicio,FechaFin,Iva,IdCliente,IdEmpleado,IdSucursal,Estado")] TAlquilere tAlquilere)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(tAlquilere);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+            //if (ModelState.IsValid)
+            //{
+
+            //}
+            _context.Add(tAlquilere);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
             ViewData["IdCliente"] = new SelectList(_context.TClientes, "IdCliente", "IdCliente", tAlquilere.IdCliente);
             ViewData["IdEmpleado"] = new SelectList(_context.TEmpleados, "IdEmpleado", "IdEmpleado", tAlquilere.IdEmpleado);
             ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal", tAlquilere.IdSucursal);
@@ -106,26 +107,28 @@ namespace ProyectoPrograAvanzada.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+
+            //}
+            try
             {
-                try
-                {
-                    _context.Update(tAlquilere);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TAlquilereExists(tAlquilere.IdAlquiler))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Update(tAlquilere);
+                await _context.SaveChangesAsync();
             }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TAlquilereExists(tAlquilere.IdAlquiler))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
+
             ViewData["IdCliente"] = new SelectList(_context.TClientes, "IdCliente", "IdCliente", tAlquilere.IdCliente);
             ViewData["IdEmpleado"] = new SelectList(_context.TEmpleados, "IdEmpleado", "IdEmpleado", tAlquilere.IdEmpleado);
             ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal", tAlquilere.IdSucursal);

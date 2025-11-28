@@ -56,12 +56,18 @@ namespace ProyectoPrograAvanzada.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdBitacora,Tabla,Operacion,ClavePrimaria,ValoresAntes,ValoresDespues,UsuarioSql,Fecha")] TBitacora tBitacora)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(tBitacora);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+            //if (ModelState.IsValid)
+            //{
+            //    _context.Add(tBitacora);
+            //    await _context.SaveChangesAsync();
+            //    return RedirectToAction(nameof(Index));
+            //}
+
+            _context.Add(tBitacora);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
+
             return View(tBitacora);
         }
 
@@ -93,26 +99,46 @@ namespace ProyectoPrograAvanzada.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+            //    try
+            //    {
+            //        _context.Update(tBitacora);
+            //        await _context.SaveChangesAsync();
+            //    }
+            //    catch (DbUpdateConcurrencyException)
+            //    {
+            //        if (!TBitacoraExists(tBitacora.IdBitacora))
+            //        {
+            //            return NotFound();
+            //        }
+            //        else
+            //        {
+            //            throw;
+            //        }
+            //    }
+            //    return RedirectToAction(nameof(Index));
+            //}
+            try
             {
-                try
-                {
-                    _context.Update(tBitacora);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TBitacoraExists(tBitacora.IdBitacora))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Update(tBitacora);
+                await _context.SaveChangesAsync();
             }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TBitacoraExists(tBitacora.IdBitacora))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
+
+
+
             return View(tBitacora);
         }
 

@@ -61,12 +61,29 @@ namespace ProyectoPrograAvanzada.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdVehiculo,Placa,Marca,Modelo,Anio,Estado,IdTipo,IdSucursal")] TVehiculo tVehiculo)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(tVehiculo);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+            //if (ModelState.IsValid)
+            //{
+            //    _context.Add(tVehiculo);
+            //    await _context.SaveChangesAsync();
+            //    return RedirectToAction(nameof(Index));
+            //}
+
+            //_context.Add(tVehiculo);
+            //await _context.SaveChangesAsync();
+            await _context.Database.ExecuteSqlInterpolatedAsync($@"
+            EXEC SC_AlquilerVehiculos.SP_VehiculoInsert 
+                @placa       = {tVehiculo.Placa},
+                @marca       = {tVehiculo.Marca},
+                @modelo      = {tVehiculo.Modelo},
+                @anio        = {tVehiculo.Anio},
+                @estado      = {tVehiculo.Estado},
+                @id_tipo     = {tVehiculo.IdTipo},
+                @id_sucursal = {tVehiculo.IdSucursal}
+               ");
+
+            return RedirectToAction(nameof(Index));
+
+
             ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal", tVehiculo.IdSucursal);
             ViewData["IdTipo"] = new SelectList(_context.TVehiculosTipos, "IdTipo", "IdTipo", tVehiculo.IdTipo);
             return View(tVehiculo);
@@ -102,26 +119,56 @@ namespace ProyectoPrograAvanzada.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+            //    try
+            //    {
+            //        _context.Update(tVehiculo);
+            //        await _context.SaveChangesAsync();
+            //    }
+            //    catch (DbUpdateConcurrencyException)
+            //    {
+            //        if (!TVehiculoExists(tVehiculo.IdVehiculo))
+            //        {
+            //            return NotFound();
+            //        }
+            //        else
+            //        {
+            //            throw;
+            //        }
+            //    }
+            //    return RedirectToAction(nameof(Index));
+            //}
+
+            try
             {
-                try
-                {
-                    _context.Update(tVehiculo);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TVehiculoExists(tVehiculo.IdVehiculo))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                //_context.Update(tVehiculo);
+                //await _context.SaveChangesAsync();
+
+                            await _context.Database.ExecuteSqlInterpolatedAsync($@"
+                    EXEC SC_AlquilerVehiculos.SP_VehiculoUpdate
+                    @id_vehiculo = {tVehiculo.IdVehiculo},
+                    @placa       = {tVehiculo.Placa},
+                    @marca       = {tVehiculo.Marca},
+                    @modelo      = {tVehiculo.Modelo},
+                    @anio        = {tVehiculo.Anio},
+                    @estado      = {tVehiculo.Estado},
+                    @id_tipo     = {tVehiculo.IdTipo},
+                    @id_sucursal = {tVehiculo.IdSucursal}
+            ");
             }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TVehiculoExists(tVehiculo.IdVehiculo))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
             ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal", tVehiculo.IdSucursal);
             ViewData["IdTipo"] = new SelectList(_context.TVehiculosTipos, "IdTipo", "IdTipo", tVehiculo.IdTipo);
             return View(tVehiculo);
@@ -155,10 +202,17 @@ namespace ProyectoPrograAvanzada.Controllers
             var tVehiculo = await _context.TVehiculos.FindAsync(id);
             if (tVehiculo != null)
             {
-                _context.TVehiculos.Remove(tVehiculo);
+                // _context.TVehiculos.Remove(tVehiculo);
+
+                await _context.Database.ExecuteSqlInterpolatedAsync($@"
+             EXEC SC_AlquilerVehiculos.SP_VehiculoDelete 
+               @id_vehiculo = {id}
+                    ");
             }
 
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
+
+
             return RedirectToAction(nameof(Index));
         }
 

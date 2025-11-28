@@ -61,12 +61,17 @@ namespace ProyectoPrograAvanzada.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdDetalle,IdAlquiler,IdVehiculo,TarifaDiaria,FechaInicio,FechaFin,Subtotal")] TAlquileresDetalle tAlquileresDetalle)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(tAlquileresDetalle);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+            //if (ModelState.IsValid)
+            //{
+            //    _context.Add(tAlquileresDetalle);
+            //    await _context.SaveChangesAsync();
+            //    return RedirectToAction(nameof(Index));
+            //}
+
+            _context.Add(tAlquileresDetalle);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
             ViewData["IdAlquiler"] = new SelectList(_context.TAlquileres, "IdAlquiler", "IdAlquiler", tAlquileresDetalle.IdAlquiler);
             ViewData["IdVehiculo"] = new SelectList(_context.TVehiculos, "IdVehiculo", "IdVehiculo", tAlquileresDetalle.IdVehiculo);
             return View(tAlquileresDetalle);
@@ -102,26 +107,44 @@ namespace ProyectoPrograAvanzada.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+            //    try
+            //    {
+            //        _context.Update(tAlquileresDetalle);
+            //        await _context.SaveChangesAsync();
+            //    }
+            //    catch (DbUpdateConcurrencyException)
+            //    {
+            //        if (!TAlquileresDetalleExists(tAlquileresDetalle.IdDetalle))
+            //        {
+            //            return NotFound();
+            //        }
+            //        else
+            //        {
+            //            throw;
+            //        }
+            //    }
+            //    return RedirectToAction(nameof(Index));
+            //}
+            try
             {
-                try
-                {
-                    _context.Update(tAlquileresDetalle);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TAlquileresDetalleExists(tAlquileresDetalle.IdDetalle))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Update(tAlquileresDetalle);
+                await _context.SaveChangesAsync();
             }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TAlquileresDetalleExists(tAlquileresDetalle.IdDetalle))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
+
             ViewData["IdAlquiler"] = new SelectList(_context.TAlquileres, "IdAlquiler", "IdAlquiler", tAlquileresDetalle.IdAlquiler);
             ViewData["IdVehiculo"] = new SelectList(_context.TVehiculos, "IdVehiculo", "IdVehiculo", tAlquileresDetalle.IdVehiculo);
             return View(tAlquileresDetalle);
