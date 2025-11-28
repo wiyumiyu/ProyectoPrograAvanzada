@@ -50,12 +50,12 @@ namespace ProyectoPrograAvanzada.Controllers
         }
 
         // POST: TVehiculosTipoes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdTipo,Descripcion,TarifaDiaria")] TVehiculosTipo tVehiculosTipo)
         {
+            // Código original del scaffolding:
+            /*
             if (ModelState.IsValid)
             {
                 _context.Add(tVehiculosTipo);
@@ -63,6 +63,16 @@ namespace ProyectoPrograAvanzada.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(tVehiculosTipo);
+            */
+
+            // Nuevo código usando Stored Procedure SP_VehiculoTipoInsert:
+            await _context.Database.ExecuteSqlInterpolatedAsync($@"
+                EXEC SC_AlquilerVehiculos.SP_VehiculoTipoInsert
+                    @descripcion   = {tVehiculosTipo.Descripcion},
+                    @tarifa_diaria = {tVehiculosTipo.TarifaDiaria}
+            ");
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: TVehiculosTipoes/Edit/5
@@ -82,8 +92,6 @@ namespace ProyectoPrograAvanzada.Controllers
         }
 
         // POST: TVehiculosTipoes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdTipo,Descripcion,TarifaDiaria")] TVehiculosTipo tVehiculosTipo)
@@ -93,6 +101,8 @@ namespace ProyectoPrograAvanzada.Controllers
                 return NotFound();
             }
 
+            // Código original del scaffolding:
+            /*
             if (ModelState.IsValid)
             {
                 try
@@ -114,6 +124,17 @@ namespace ProyectoPrograAvanzada.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(tVehiculosTipo);
+            */
+
+            // Nuevo código usando Stored Procedure SP_VehiculoTipoUpdate:
+            await _context.Database.ExecuteSqlInterpolatedAsync($@"
+                EXEC SC_AlquilerVehiculos.SP_VehiculoTipoUpdate
+                    @id_tipo       = {tVehiculosTipo.IdTipo},
+                    @descripcion   = {tVehiculosTipo.Descripcion},
+                    @tarifa_diaria = {tVehiculosTipo.TarifaDiaria}
+            ");
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: TVehiculosTipoes/Delete/5
@@ -139,13 +160,23 @@ namespace ProyectoPrograAvanzada.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // Código original del scaffolding:
+            /*
             var tVehiculosTipo = await _context.TVehiculosTipos.FindAsync(id);
             if (tVehiculosTipo != null)
             {
                 _context.TVehiculosTipos.Remove(tVehiculosTipo);
             }
-
             await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+            */
+
+            // Nuevo código usando Stored Procedure SP_VehiculoTipoDelete:
+            await _context.Database.ExecuteSqlInterpolatedAsync($@"
+                EXEC SC_AlquilerVehiculos.SP_VehiculoTipoDelete
+                    @id_tipo = {id}
+            ");
+
             return RedirectToAction(nameof(Index));
         }
 

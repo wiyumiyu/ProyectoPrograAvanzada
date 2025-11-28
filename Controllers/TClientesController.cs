@@ -50,12 +50,12 @@ namespace ProyectoPrograAvanzada.Controllers
         }
 
         // POST: TClientes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdCliente,Nombre,Cedula,Telefono,Email,Direccion")] TCliente tCliente)
         {
+            // Código original generado por scaffolding:
+            /*
             if (ModelState.IsValid)
             {
                 _context.Add(tCliente);
@@ -63,6 +63,19 @@ namespace ProyectoPrograAvanzada.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(tCliente);
+            */
+
+            // Nuevo código usando Stored Procedure SP_ClienteInsert:
+            await _context.Database.ExecuteSqlInterpolatedAsync($@"
+                EXEC SC_AlquilerVehiculos.SP_ClienteInsert
+                    @nombre    = {tCliente.Nombre},
+                    @cedula    = {tCliente.Cedula},
+                    @telefono  = {tCliente.Telefono},
+                    @email     = {tCliente.Email},
+                    @direccion = {tCliente.Direccion}
+            ");
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: TClientes/Edit/5
@@ -82,8 +95,6 @@ namespace ProyectoPrograAvanzada.Controllers
         }
 
         // POST: TClientes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdCliente,Nombre,Cedula,Telefono,Email,Direccion")] TCliente tCliente)
@@ -93,6 +104,8 @@ namespace ProyectoPrograAvanzada.Controllers
                 return NotFound();
             }
 
+            // Código original del scaffolding:
+            /*
             if (ModelState.IsValid)
             {
                 try
@@ -114,6 +127,20 @@ namespace ProyectoPrograAvanzada.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(tCliente);
+            */
+
+            // Nuevo código usando Stored Procedure SP_ClienteUpdate:
+            await _context.Database.ExecuteSqlInterpolatedAsync($@"
+                EXEC SC_AlquilerVehiculos.SP_ClienteUpdate
+                    @id_cliente = {tCliente.IdCliente},
+                    @nombre     = {tCliente.Nombre},
+                    @cedula     = {tCliente.Cedula},
+                    @telefono   = {tCliente.Telefono},
+                    @email      = {tCliente.Email},
+                    @direccion  = {tCliente.Direccion}
+            ");
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: TClientes/Delete/5
@@ -139,13 +166,23 @@ namespace ProyectoPrograAvanzada.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // Código original del scaffolding:
+            /*
             var tCliente = await _context.TClientes.FindAsync(id);
             if (tCliente != null)
             {
                 _context.TClientes.Remove(tCliente);
             }
-
             await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+            */
+
+            // Nuevo código usando Stored Procedure SP_ClienteDelete:
+            await _context.Database.ExecuteSqlInterpolatedAsync($@"
+                EXEC SC_AlquilerVehiculos.SP_ClienteDelete
+                    @id_cliente = {id}
+            ");
+
             return RedirectToAction(nameof(Index));
         }
 
