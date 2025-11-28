@@ -17,241 +17,241 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ProyectoPrograAvanzada
 build_property.RootNamespace = ProyectoPrograAvanzada
-build_property.ProjectDir = C:\Users\wiyu\source\repos\ProyectoPrograAvanzada\ProyectoPrograAvanzada\
+build_property.ProjectDir = C:\Users\Julio\source\repos\ProyectoPrograAvanzada\ProyectoPrograAvanzada\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\wiyu\source\repos\ProyectoPrograAvanzada\ProyectoPrograAvanzada
+build_property.MSBuildProjectDirectory = C:\Users\Julio\source\repos\ProyectoPrograAvanzada\ProyectoPrograAvanzada
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/Home/Index.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/Home/Privacy.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/Shared/Error.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TAlquileresDetalles/Create.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TAlquileresDetalles/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVEFscXVpbGVyZXNEZXRhbGxlc1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TAlquileresDetalles/Delete.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TAlquileresDetalles/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVEFscXVpbGVyZXNEZXRhbGxlc1xEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TAlquileresDetalles/Details.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TAlquileresDetalles/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVEFscXVpbGVyZXNEZXRhbGxlc1xEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TAlquileresDetalles/Edit.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TAlquileresDetalles/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVEFscXVpbGVyZXNEZXRhbGxlc1xFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TAlquileresDetalles/Index.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TAlquileresDetalles/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVEFscXVpbGVyZXNEZXRhbGxlc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TAlquileres/Create.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TAlquileres/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVEFscXVpbGVyZXNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TAlquileres/Delete.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TAlquileres/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVEFscXVpbGVyZXNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TAlquileres/Details.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TAlquileres/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVEFscXVpbGVyZXNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TAlquileres/Edit.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TAlquileres/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVEFscXVpbGVyZXNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TAlquileres/Index.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TAlquileres/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVEFscXVpbGVyZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TBitacoras/Create.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TBitacoras/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVEJpdGFjb3Jhc1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TBitacoras/Delete.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TBitacoras/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVEJpdGFjb3Jhc1xEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TBitacoras/Details.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TBitacoras/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVEJpdGFjb3Jhc1xEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TBitacoras/Edit.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TBitacoras/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVEJpdGFjb3Jhc1xFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TBitacoras/Index.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TBitacoras/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVEJpdGFjb3Jhc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TClientes/Create.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TClientes/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVENsaWVudGVzXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TClientes/Delete.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TClientes/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVENsaWVudGVzXERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TClientes/Details.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TClientes/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVENsaWVudGVzXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TClientes/Edit.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TClientes/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVENsaWVudGVzXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TClientes/Index.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TClientes/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVENsaWVudGVzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TEmpleadoes/Create.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TEmpleadoes/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVEVtcGxlYWRvZXNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TEmpleadoes/Delete.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TEmpleadoes/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVEVtcGxlYWRvZXNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TEmpleadoes/Details.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TEmpleadoes/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVEVtcGxlYWRvZXNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TEmpleadoes/Edit.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TEmpleadoes/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVEVtcGxlYWRvZXNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TEmpleadoes/Index.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TEmpleadoes/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVEVtcGxlYWRvZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TReciboes/Create.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TReciboes/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFJlY2lib2VzXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TReciboes/Delete.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TReciboes/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFJlY2lib2VzXERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TReciboes/Details.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TReciboes/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFJlY2lib2VzXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TReciboes/Edit.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TReciboes/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFJlY2lib2VzXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TReciboes/Index.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TReciboes/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFJlY2lib2VzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TRoles/Create.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TRoles/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFJvbGVzXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TRoles/Delete.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TRoles/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFJvbGVzXERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TRoles/Details.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TRoles/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFJvbGVzXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TRoles/Edit.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TRoles/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFJvbGVzXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TRoles/Index.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TRoles/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFJvbGVzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TSucursales/Create.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TSucursales/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFN1Y3Vyc2FsZXNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TSucursales/Delete.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TSucursales/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFN1Y3Vyc2FsZXNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TSucursales/Details.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TSucursales/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFN1Y3Vyc2FsZXNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TSucursales/Edit.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TSucursales/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFN1Y3Vyc2FsZXNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TSucursales/Index.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TSucursales/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFN1Y3Vyc2FsZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TVehiculoes/Create.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TVehiculoes/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFZlaGljdWxvZXNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TVehiculoes/Delete.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TVehiculoes/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFZlaGljdWxvZXNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TVehiculoes/Details.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TVehiculoes/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFZlaGljdWxvZXNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TVehiculoes/Edit.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TVehiculoes/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFZlaGljdWxvZXNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TVehiculoes/Index.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TVehiculoes/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFZlaGljdWxvZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TVehiculosTipoes/Create.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TVehiculosTipoes/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFZlaGljdWxvc1RpcG9lc1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TVehiculosTipoes/Delete.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TVehiculosTipoes/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFZlaGljdWxvc1RpcG9lc1xEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TVehiculosTipoes/Details.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TVehiculosTipoes/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFZlaGljdWxvc1RpcG9lc1xEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TVehiculosTipoes/Edit.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TVehiculosTipoes/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFZlaGljdWxvc1RpcG9lc1xFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TVehiculosTipoes/Index.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/TVehiculosTipoes/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFZlaGljdWxvc1RpcG9lc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/_ViewImports.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/_ViewStart.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/wiyu/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/Shared/_Layout.cshtml]
+[C:/Users/Julio/source/repos/ProyectoPrograAvanzada/ProyectoPrograAvanzada/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-e9l2lthth2

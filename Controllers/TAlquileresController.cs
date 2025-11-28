@@ -67,9 +67,24 @@ namespace ProyectoPrograAvanzada.Controllers
             //{
 
             //}
-            _context.Add(tAlquilere);
-            await _context.SaveChangesAsync();
+
+            //            _context.Add(tAlquilere);
+            //          await _context.SaveChangesAsync();
+            //        return RedirectToAction(nameof(Index));
+
+            await _context.Database.ExecuteSqlInterpolatedAsync($@"
+    EXEC SC_AlquilerVehiculos.SP_AlquilerInsert
+        @fecha_inicio = {tAlquilere.FechaInicio},
+        @fecha_fin    = {tAlquilere.FechaFin},
+        @iva          = {tAlquilere.Iva},
+        @id_cliente   = {tAlquilere.IdCliente},
+        @id_empleado  = {tAlquilere.IdEmpleado},
+        @id_sucursal  = {tAlquilere.IdSucursal},
+        @estado       = {tAlquilere.Estado}
+");
+
             return RedirectToAction(nameof(Index));
+
             ViewData["IdCliente"] = new SelectList(_context.TClientes, "IdCliente", "IdCliente", tAlquilere.IdCliente);
             ViewData["IdEmpleado"] = new SelectList(_context.TEmpleados, "IdEmpleado", "IdEmpleado", tAlquilere.IdEmpleado);
             ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal", tAlquilere.IdSucursal);
@@ -113,8 +128,23 @@ namespace ProyectoPrograAvanzada.Controllers
             //}
             try
             {
-                _context.Update(tAlquilere);
-                await _context.SaveChangesAsync();
+                //  _context.Update(tAlquilere);
+                // await _context.SaveChangesAsync();
+
+                await _context.Database.ExecuteSqlInterpolatedAsync($@"
+    EXEC SC_AlquilerVehiculos.SP_AlquilerUpdate
+        @id_alquiler = {tAlquilere.IdAlquiler},
+        @fecha_inicio = {tAlquilere.FechaInicio},
+        @fecha_fin    = {tAlquilere.FechaFin},
+        @iva          = {tAlquilere.Iva},
+        @id_cliente   = {tAlquilere.IdCliente},
+        @id_empleado  = {tAlquilere.IdEmpleado},
+        @id_sucursal  = {tAlquilere.IdSucursal},
+        @estado       = {tAlquilere.Estado}
+");
+
+                return RedirectToAction(nameof(Index));
+
             }
             catch (DbUpdateConcurrencyException)
             {

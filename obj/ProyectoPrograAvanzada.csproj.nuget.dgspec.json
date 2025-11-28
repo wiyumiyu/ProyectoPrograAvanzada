@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\wiyu\\source\\repos\\ProyectoPrograAvanzada\\ProyectoPrograAvanzada\\ProyectoPrograAvanzada.csproj": {}
+    "C:\\Users\\Julio\\source\\repos\\ProyectoPrograAvanzada\\ProyectoPrograAvanzada\\ProyectoPrograAvanzada.csproj": {}
   },
   "projects": {
-    "C:\\Users\\wiyu\\source\\repos\\ProyectoPrograAvanzada\\ProyectoPrograAvanzada\\ProyectoPrograAvanzada.csproj": {
+    "C:\\Users\\Julio\\source\\repos\\ProyectoPrograAvanzada\\ProyectoPrograAvanzada\\ProyectoPrograAvanzada.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\wiyu\\source\\repos\\ProyectoPrograAvanzada\\ProyectoPrograAvanzada\\ProyectoPrograAvanzada.csproj",
+        "projectUniqueName": "C:\\Users\\Julio\\source\\repos\\ProyectoPrograAvanzada\\ProyectoPrograAvanzada\\ProyectoPrograAvanzada.csproj",
         "projectName": "ProyectoPrograAvanzada",
-        "projectPath": "C:\\Users\\wiyu\\source\\repos\\ProyectoPrograAvanzada\\ProyectoPrograAvanzada\\ProyectoPrograAvanzada.csproj",
-        "packagesPath": "C:\\Users\\wiyu\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\wiyu\\source\\repos\\ProyectoPrograAvanzada\\ProyectoPrograAvanzada\\obj\\",
+        "projectPath": "C:\\Users\\Julio\\source\\repos\\ProyectoPrograAvanzada\\ProyectoPrograAvanzada\\ProyectoPrograAvanzada.csproj",
+        "packagesPath": "C:\\Users\\Julio\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Julio\\source\\repos\\ProyectoPrograAvanzada\\ProyectoPrograAvanzada\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\wiyu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Julio\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
