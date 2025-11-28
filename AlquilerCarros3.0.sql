@@ -169,6 +169,9 @@ ADD CONSTRAINT FK_Empleados_Roles
 FOREIGN KEY(id_rol) REFERENCES SC_AlquilerVehiculos.T_Roles(id_rol)
 GO
 
+ALTER TABLE SC_AlquilerVehiculos.T_Empleados
+ADD CONSTRAINT DF_Empleados_Rol DEFAULT 1 FOR id_rol;
+
 /* ============================================================
    4. Tipos de vehículos (independiente)
    ============================================================ */
@@ -594,103 +597,95 @@ GO
 /*EMPLEADOS***********************************************/
 
 -- SP para insertar un empleado y registrar la operación en la bitácora
-CREATE PROCEDURE SC_AlquilerVehiculos.SP_EmpleadoInsert
+ALTER PROCEDURE SC_AlquilerVehiculos.SP_EmpleadoInsert
     @nombre      VARCHAR(100),
     @correo      VARCHAR(100),
     @telefono    VARCHAR(20),
+    @contrasena  VARCHAR(100),
     @puesto      VARCHAR(50),
-    @id_sucursal INT
+    @id_sucursal INT,
+    @id_rol      INT
 AS
 BEGIN
-    SET NOCOUNT ON;  -- Evita mensajes adicionales
+    SET NOCOUNT ON;
 
-    BEGIN TRY
-        DECLARE @id INT;  -- ID generado para el empleado insertado
+    DECLARE @id INT;
 
-        -- Inserta un nuevo empleado
-        INSERT INTO SC_AlquilerVehiculos.T_Empleados(nombre, correo, telefono, puesto, id_sucursal)
-        VALUES(@nombre, @correo, @telefono, @puesto, @id_sucursal);
+    INSERT INTO SC_AlquilerVehiculos.T_Empleados
+        (nombre, correo, telefono, contrasena, puesto, id_sucursal, id_rol)
+    VALUES
+        (@nombre, @correo, @telefono, @contrasena, @puesto, @id_sucursal, @id_rol);
 
-        SET @id = SCOPE_IDENTITY(); -- Obtiene ID generado
+    SET @id = SCOPE_IDENTITY();
 
-        -- Registra auditoría del INSERT
-        INSERT INTO SC_AlquilerVehiculos.T_Bitacora
-        (tabla, operacion, clave_primaria, valores_antes, valores_despues)
-        VALUES(
-            'T_Empleados',  -- Tabla afectada
-            'INSERT',       -- Tipo de operación
-            @id,            -- PK generada
-            NULL,           -- No hay valores antes en un INSERT
-            (
-                SELECT @id AS id_empleado,
-                       @nombre AS nombre,
-                       @correo AS correo,
-                       @telefono AS telefono,
-                       @puesto AS puesto,
-                       @id_sucursal AS id_sucursal
-                FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
-            )
-        );
-
-        SELECT @id AS id_empleado;  -- Devuelve ID generado
-    END TRY
-    BEGIN CATCH
-        THROW;  -- Reenvía el error
-    END CATCH;
+    INSERT INTO SC_AlquilerVehiculos.T_Bitacora
+    (tabla, operacion, clave_primaria, valores_antes, valores_despues)
+    VALUES(
+        'T_Empleados',
+        'INSERT',
+        @id,
+        NULL,
+        (
+            SELECT @id AS id_empleado,
+                   @nombre AS nombre,
+                   @correo AS correo,
+                   @telefono AS telefono,
+                   @contrasena AS contrasena,
+                   @puesto AS puesto,
+                   @id_sucursal AS id_sucursal,
+                   @id_rol AS id_rol
+            FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+        )
+    );
 END
 GO
 
 -- SP para actualizar un empleado y registrar cambios en la bitácora
-CREATE PROCEDURE SC_AlquilerVehiculos.SP_EmpleadoUpdate
+ALTER PROCEDURE SC_AlquilerVehiculos.SP_EmpleadoUpdate
     @id_empleado INT,
     @nombre      VARCHAR(100),
     @correo      VARCHAR(100),
     @telefono    VARCHAR(20),
+    @contrasena  VARCHAR(100),
     @puesto      VARCHAR(50),
-    @id_sucursal INT
+    @id_sucursal INT,
+    @id_rol      INT
 AS
 BEGIN
-    SET NOCOUNT ON;  -- Evita mensajes adicionales
+    SET NOCOUNT ON;
 
-    BEGIN TRY
-        DECLARE @antes NVARCHAR(MAX);    -- Valores antes del UPDATE
-        DECLARE @despues NVARCHAR(MAX);  -- Valores después del UPDATE
+    DECLARE @antes NVARCHAR(MAX);
+    DECLARE @despues NVARCHAR(MAX);
 
-        -- Obtiene datos antes del cambio
-        SELECT @antes =
-            (SELECT * FROM SC_AlquilerVehiculos.T_Empleados
-             WHERE id_empleado = @id_empleado
-             FOR JSON PATH, WITHOUT_ARRAY_WRAPPER);
+    SELECT @antes =
+        (SELECT * FROM SC_AlquilerVehiculos.T_Empleados
+         WHERE id_empleado = @id_empleado
+         FOR JSON PATH, WITHOUT_ARRAY_WRAPPER);
 
-        -- Actualiza los datos del empleado
-        UPDATE SC_AlquilerVehiculos.T_Empleados
-        SET nombre      = @nombre,
-            correo      = @correo,
-            telefono    = @telefono,
-            puesto      = @puesto,
-            id_sucursal = @id_sucursal
-        WHERE id_empleado = @id_empleado;
+    UPDATE SC_AlquilerVehiculos.T_Empleados
+    SET nombre      = @nombre,
+        correo      = @correo,
+        telefono    = @telefono,
+        contrasena  = @contrasena,
+        puesto      = @puesto,
+        id_sucursal = @id_sucursal,
+        id_rol      = @id_rol
+    WHERE id_empleado = @id_empleado;
 
-        -- Obtiene datos después del cambio
-        SELECT @despues =
-            (SELECT * FROM SC_AlquilerVehiculos.T_Empleados
-             WHERE id_empleado = @id_empleado
-             FOR JSON PATH, WITHOUT_ARRAY_WRAPPER);
+    SELECT @despues =
+        (SELECT * FROM SC_AlquilerVehiculos.T_Empleados
+         WHERE id_empleado = @id_empleado
+         FOR JSON PATH, WITHOUT_ARRAY_WRAPPER);
 
-        -- Registra auditoría del UPDATE
-        INSERT INTO SC_AlquilerVehiculos.T_Bitacora
-        (tabla, operacion, clave_primaria, valores_antes, valores_despues)
-        VALUES(
-            'T_Empleados',   -- Tabla afectada
-            'UPDATE',        -- Tipo de operación
-            @id_empleado,    -- PK modificada
-            @antes,          -- Estado previo
-            @despues         -- Estado posterior
-        );
-    END TRY
-    BEGIN CATCH
-        THROW;  -- Propaga error
-    END CATCH;
+    INSERT INTO SC_AlquilerVehiculos.T_Bitacora
+    (tabla, operacion, clave_primaria, valores_antes, valores_despues)
+    VALUES(
+        'T_Empleados',
+        'UPDATE',
+        @id_empleado,
+        @antes,
+        @despues
+    );
 END
 GO
 

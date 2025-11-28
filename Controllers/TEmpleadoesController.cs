@@ -61,12 +61,28 @@ namespace ProyectoPrograAvanzada.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdEmpleado,Nombre,Correo,Telefono,Contrasena,Puesto,IdSucursal,IdRol")] TEmpleado tEmpleado)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(tEmpleado);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+            //if (ModelState.IsValid)
+            //{
+            //    _context.Add(tEmpleado);
+            //    await _context.SaveChangesAsync();
+            //    return RedirectToAction(nameof(Index));
+            //}
+
+            await _context.Database.ExecuteSqlInterpolatedAsync($@"
+    EXEC SC_AlquilerVehiculos.SP_EmpleadoInsert
+        @nombre      = {tEmpleado.Nombre},
+        @correo      = {tEmpleado.Correo},
+        @telefono    = {tEmpleado.Telefono},
+        @contrasena  = {tEmpleado.Contrasena},
+        @puesto      = {tEmpleado.Puesto},
+        @id_sucursal = {tEmpleado.IdSucursal},
+        @id_rol      = {tEmpleado.IdRol}
+");
+
+            return RedirectToAction(nameof(Index));
+
+
+
             ViewData["IdRol"] = new SelectList(_context.TRoles, "IdRol", "IdRol", tEmpleado.IdRol);
             ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal", tEmpleado.IdSucursal);
             return View(tEmpleado);
@@ -102,26 +118,59 @@ namespace ProyectoPrograAvanzada.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+            //    try
+            //    {
+            //        _context.Update(tEmpleado);
+            //        await _context.SaveChangesAsync();
+            //    }
+            //    catch (DbUpdateConcurrencyException)
+            //    {
+            //        if (!TEmpleadoExists(tEmpleado.IdEmpleado))
+            //        {
+            //            return NotFound();
+            //        }
+            //        else
+            //        {
+            //            throw;
+            //        }
+            //    }
+            //    return RedirectToAction(nameof(Index));
+            //}
+
+
+            try
             {
-                try
-                {
-                    _context.Update(tEmpleado);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TEmpleadoExists(tEmpleado.IdEmpleado))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                //_context.Update(tEmpleado);
+                //await _context.SaveChangesAsync();
+
+                await _context.Database.ExecuteSqlInterpolatedAsync($@"
+    EXEC SC_AlquilerVehiculos.SP_EmpleadoUpdate
+        @id_empleado = {tEmpleado.IdEmpleado},
+        @nombre      = {tEmpleado.Nombre},
+        @correo      = {tEmpleado.Correo},
+        @telefono    = {tEmpleado.Telefono},
+        @contrasena  = {tEmpleado.Contrasena},
+        @puesto      = {tEmpleado.Puesto},
+        @id_sucursal = {tEmpleado.IdSucursal},
+        @id_rol      = {tEmpleado.IdRol}
+");
+
                 return RedirectToAction(nameof(Index));
             }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TEmpleadoExists(tEmpleado.IdEmpleado))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
             ViewData["IdRol"] = new SelectList(_context.TRoles, "IdRol", "IdRol", tEmpleado.IdRol);
             ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal", tEmpleado.IdSucursal);
             return View(tEmpleado);
