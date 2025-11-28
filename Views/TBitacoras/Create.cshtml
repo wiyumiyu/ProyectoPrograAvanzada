@@ -1,0 +1,53 @@
+﻿@model ProyectoPrograAvanzada.Models.TBitacora
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>TBitacora</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Tabla" class="control-label"></label>
+                <input asp-for="Tabla" class="form-control" />
+                <span asp-validation-for="Tabla" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Operacion" class="control-label"></label>
+                <input asp-for="Operacion" class="form-control" />
+                <span asp-validation-for="Operacion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClavePrimaria" class="control-label"></label>
+                <input asp-for="ClavePrimaria" class="form-control" />
+                <span asp-validation-for="ClavePrimaria" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ValoresAntes" class="control-label"></label>
+                <input asp-for="ValoresAntes" class="form-control" />
+                <span asp-validation-for="ValoresAntes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ValoresDespues" class="control-label"></label>
+                <input asp-for="ValoresDespues" class="form-control" />
+                <span asp-validation-for="ValoresDespues" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

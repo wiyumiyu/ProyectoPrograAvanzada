@@ -1,0 +1,65 @@
+﻿@model IEnumerable<ProyectoPrograAvanzada.Models.TAlquileresDetalle>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TarifaDiaria)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaFin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subtotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdAlquilerNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdVehiculoNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TarifaDiaria)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaInicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaFin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subtotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdAlquilerNavigation.IdAlquiler)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdVehiculoNavigation.IdVehiculo)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdDetalle">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdDetalle">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdDetalle">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

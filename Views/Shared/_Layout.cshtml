@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - RentACar</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Fuente moderna -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- CSS personalizado -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- NAVBAR -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark shadow-sm rent-navbar">
+            <div class="container-fluid">
+
+                <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
+                    Alquiler Vehículos
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navMenu">
+
+                    <ul class="navbar-nav me-auto">
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">Inicio</a>
+                        </li>
+
+                        <!-- Clientes -->
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="TClientes" asp-action="Index">Clientes</a>
+                        </li>
+
+                        <!-- Empleados -->
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="TEmpleadoes" asp-action="Index">Empleados</a>
+                        </li>
+
+                        <!-- Sucursales -->
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="TSucursales" asp-action="Index">Sucursales</a>
+                        </li>
+
+                        <!-- Vehículos Dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button"
+                               data-bs-toggle="dropdown">Vehículos</a>
+
+                            <ul class="dropdown-menu shadow-sm">
+                                <li><a class="dropdown-item" asp-controller="TVehiculoes" asp-action="Index">Vehículos</a></li>
+                                <li><a class="dropdown-item" asp-controller="TVehiculosTipoes" asp-action="Index">Tipos de Vehículos</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Alquileres Dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button"
+                               data-bs-toggle="dropdown">Alquileres</a>
+
+                            <ul class="dropdown-menu shadow-sm">
+                                <li><a class="dropdown-item" asp-controller="TAlquileres" asp-action="Index">Alquileres</a></li>
+                                <li><a class="dropdown-item" asp-controller="TAlquileresDetalles" asp-action="Index">Detalles</a></li>
+                                <li><a class="dropdown-item" asp-controller="TReciboes" asp-action="Index">Recibos</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Bitácoras -->
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="TBitacoras" asp-action="Index">Bitácoras</a>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- CONTENIDO -->
+    <main role="main" class="container py-4 fade-in flex-grow-1">
+        @RenderBody()
+    </main>
+
+    <!-- FOOTER SIEMPRE ABAJO -->
+    <footer class="footer-rent text-center text-white py-3 mt-auto">
+        © 2025 Sistema Alquiler Vehículos — Proyecto Programación Avanzada
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

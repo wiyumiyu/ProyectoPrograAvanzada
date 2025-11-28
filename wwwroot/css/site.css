@@ -1,0 +1,76 @@
+/* Fuente general */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f5f7fa;
+}
+
+/* NAVBAR estilo Rent a Car */
+.rent-navbar {
+    background: linear-gradient(90deg, #003973, #005fa3);
+    padding: 12px 20px;
+}
+
+.navbar-brand {
+    font-size: 1.4rem;
+}
+
+.nav-link {
+    color: #e6f2ff !important;
+    font-weight: 400;
+    transition: 0.3s;
+}
+
+    .nav-link:hover {
+        color: #ffffff !important;
+        text-shadow: 0 0 6px white;
+    }
+
+.dropdown-menu {
+    border-radius: 10px;
+}
+
+/* Animación suave al cargar */
+.fade-in {
+    animation: fadein 0.7s ease-in-out;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Footer fijo al fondo */
+.footer-rent {
+    background: #003973;
+    color: white;
+}
+
+/* Tarjetas recomendadas para tablas */
+.card-rent {
+    background: white;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Botón estilo corporativo */
+.btn-rent {
+    background: #005fa3;
+    border: none;
+    color: white;
+    border-radius: 8px;
+    padding: 8px 16px;
+    transition: 0.2s;
+}
+
+    .btn-rent:hover {
+        background: #003f73;
+    }
+

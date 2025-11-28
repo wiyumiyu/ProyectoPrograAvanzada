@@ -1,0 +1,176 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using ProyectoPrograAvanzada.Data;
+using ProyectoPrograAvanzada.Models;
+
+namespace ProyectoPrograAvanzada.Controllers
+{
+    public class TAlquileresController : Controller
+    {
+        private readonly DbAlquilerVehiculosContext _context;
+
+        public TAlquileresController(DbAlquilerVehiculosContext context)
+        {
+            _context = context;
+        }
+
+        // GET: TAlquileres
+        public async Task<IActionResult> Index()
+        {
+            var dbAlquilerVehiculosContext = _context.TAlquileres.Include(t => t.IdClienteNavigation).Include(t => t.IdEmpleadoNavigation).Include(t => t.IdSucursalNavigation);
+            return View(await dbAlquilerVehiculosContext.ToListAsync());
+        }
+
+        // GET: TAlquileres/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var tAlquilere = await _context.TAlquileres
+                .Include(t => t.IdClienteNavigation)
+                .Include(t => t.IdEmpleadoNavigation)
+                .Include(t => t.IdSucursalNavigation)
+                .FirstOrDefaultAsync(m => m.IdAlquiler == id);
+            if (tAlquilere == null)
+            {
+                return NotFound();
+            }
+
+            return View(tAlquilere);
+        }
+
+        // GET: TAlquileres/Create
+        public IActionResult Create()
+        {
+            ViewData["IdCliente"] = new SelectList(_context.TClientes, "IdCliente", "IdCliente");
+            ViewData["IdEmpleado"] = new SelectList(_context.TEmpleados, "IdEmpleado", "IdEmpleado");
+            ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal");
+            return View();
+        }
+
+        // POST: TAlquileres/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("IdAlquiler,FechaInicio,FechaFin,Iva,IdCliente,IdEmpleado,IdSucursal,Estado")] TAlquilere tAlquilere)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(tAlquilere);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["IdCliente"] = new SelectList(_context.TClientes, "IdCliente", "IdCliente", tAlquilere.IdCliente);
+            ViewData["IdEmpleado"] = new SelectList(_context.TEmpleados, "IdEmpleado", "IdEmpleado", tAlquilere.IdEmpleado);
+            ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal", tAlquilere.IdSucursal);
+            return View(tAlquilere);
+        }
+
+        // GET: TAlquileres/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var tAlquilere = await _context.TAlquileres.FindAsync(id);
+            if (tAlquilere == null)
+            {
+                return NotFound();
+            }
+            ViewData["IdCliente"] = new SelectList(_context.TClientes, "IdCliente", "IdCliente", tAlquilere.IdCliente);
+            ViewData["IdEmpleado"] = new SelectList(_context.TEmpleados, "IdEmpleado", "IdEmpleado", tAlquilere.IdEmpleado);
+            ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal", tAlquilere.IdSucursal);
+            return View(tAlquilere);
+        }
+
+        // POST: TAlquileres/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("IdAlquiler,FechaInicio,FechaFin,Iva,IdCliente,IdEmpleado,IdSucursal,Estado")] TAlquilere tAlquilere)
+        {
+            if (id != tAlquilere.IdAlquiler)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(tAlquilere);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!TAlquilereExists(tAlquilere.IdAlquiler))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["IdCliente"] = new SelectList(_context.TClientes, "IdCliente", "IdCliente", tAlquilere.IdCliente);
+            ViewData["IdEmpleado"] = new SelectList(_context.TEmpleados, "IdEmpleado", "IdEmpleado", tAlquilere.IdEmpleado);
+            ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal", tAlquilere.IdSucursal);
+            return View(tAlquilere);
+        }
+
+        // GET: TAlquileres/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var tAlquilere = await _context.TAlquileres
+                .Include(t => t.IdClienteNavigation)
+                .Include(t => t.IdEmpleadoNavigation)
+                .Include(t => t.IdSucursalNavigation)
+                .FirstOrDefaultAsync(m => m.IdAlquiler == id);
+            if (tAlquilere == null)
+            {
+                return NotFound();
+            }
+
+            return View(tAlquilere);
+        }
+
+        // POST: TAlquileres/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var tAlquilere = await _context.TAlquileres.FindAsync(id);
+            if (tAlquilere != null)
+            {
+                _context.TAlquileres.Remove(tAlquilere);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool TAlquilereExists(int id)
+        {
+            return _context.TAlquileres.Any(e => e.IdAlquiler == id);
+        }
+    }
+}
