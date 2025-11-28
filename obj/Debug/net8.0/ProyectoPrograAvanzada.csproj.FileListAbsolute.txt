@@ -285,3 +285,4 @@ C:\Users\wiyu\source\repos\ProyectoPrograAvanzada\ProyectoPrograAvanzada\obj\Deb
 C:\Users\wiyu\source\repos\ProyectoPrograAvanzada\ProyectoPrograAvanzada\obj\Debug\net8.0\ProyectoPrograAvanzada.pdb
 C:\Users\wiyu\source\repos\ProyectoPrograAvanzada\ProyectoPrograAvanzada\obj\Debug\net8.0\ProyectoPrograAvanzada.genruntimeconfig.cache
 C:\Users\wiyu\source\repos\ProyectoPrograAvanzada\ProyectoPrograAvanzada\obj\Debug\net8.0\ref\ProyectoPrograAvanzada.dll
+C:\Users\wiyu\source\repos\ProyectoPrograAvanzada\ProyectoPrograAvanzada\obj\Debug\net8.0\ProyectoPrograAvanzada.sourcelink.json
