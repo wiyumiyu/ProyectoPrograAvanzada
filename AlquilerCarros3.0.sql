@@ -597,7 +597,7 @@ GO
 /*EMPLEADOS***********************************************/
 
 -- SP para insertar un empleado y registrar la operación en la bitácora
-ALTER PROCEDURE SC_AlquilerVehiculos.SP_EmpleadoInsert
+CREATE PROCEDURE SC_AlquilerVehiculos.SP_EmpleadoInsert
     @nombre      VARCHAR(100),
     @correo      VARCHAR(100),
     @telefono    VARCHAR(20),
@@ -641,7 +641,7 @@ END
 GO
 
 -- SP para actualizar un empleado y registrar cambios en la bitácora
-ALTER PROCEDURE SC_AlquilerVehiculos.SP_EmpleadoUpdate
+CREATE PROCEDURE SC_AlquilerVehiculos.SP_EmpleadoUpdate
     @id_empleado INT,
     @nombre      VARCHAR(100),
     @correo      VARCHAR(100),
@@ -1728,3 +1728,28 @@ GO
 GRANT EXECUTE TO rol_empleado;
 GRANT EXECUTE TO rol_jefe;
 
+INSERT INTO SC_AlquilerVehiculos.T_Sucursales
+(nombre, telefono, direccion)
+VALUES
+('Sucursal Central', '2222-1111', 'Avenida Principal #123, San José');
+
+INSERT INTO SC_AlquilerVehiculos.T_Sucursales
+(nombre, telefono, direccion)
+VALUES
+('Sucursal Liberia', '2666-2222', 'Calle Real 200m Norte, Liberia');
+
+INSERT INTO SC_AlquilerVehiculos.T_Roles (rol)
+VALUES ('Administrador');
+
+INSERT INTO SC_AlquilerVehiculos.T_Roles (rol)
+VALUES ('Cajero');
+
+INSERT INTO SC_AlquilerVehiculos.T_Empleados
+(nombre, correo, telefono, contrasena, puesto, id_sucursal, id_rol)
+VALUES
+('Carlos Pérez', 'carlos.perez@empresa.com', '8888-0001', 'pass123', 'Gerente', 1, 1);
+
+INSERT INTO SC_AlquilerVehiculos.T_Empleados
+(nombre, correo, telefono, contrasena, puesto, id_sucursal, id_rol)
+VALUES
+('Ana Rodríguez', 'ana.rodriguez@empresa.com', '8888-0002', 'pass456', 'Cajera', 2, 2);

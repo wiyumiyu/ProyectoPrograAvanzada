@@ -4,16 +4,17 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Vehículos</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Crear</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Placa)
+               <!-- @Html.DisplayNameFor(model => model.Placa) -->
+               Placa
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Marca)
@@ -22,16 +23,16 @@
                 @Html.DisplayNameFor(model => model.Modelo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Anio)
+                Año
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Estado)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdSucursalNavigation)
+                Sucursal
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdTipoNavigation)
+                Tipo
             </th>
             <th></th>
         </tr>
@@ -55,15 +56,16 @@
                 @Html.DisplayFor(modelItem => item.Estado)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdSucursalNavigation.IdSucursal)
+                <!--@Html.DisplayFor(modelItem => item.IdSucursalNavigation.IdSucursal)-->
+                @Html.DisplayFor(modelItem => item.IdSucursalNavigation.Nombre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdTipoNavigation.IdTipo)
+                @Html.DisplayFor(modelItem => item.IdTipoNavigation.Descripcion)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdVehiculo">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdVehiculo">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdVehiculo">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.IdVehiculo">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.IdVehiculo">Detalle</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdVehiculo">Eliminar</a>
             </td>
         </tr>
 }
