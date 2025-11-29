@@ -68,10 +68,20 @@ namespace ProyectoPrograAvanzada.Controllers
             //    return RedirectToAction(nameof(Index));
             //}
 
-            _context.Add(tAlquileresDetalle);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            //_context.Add(tAlquileresDetalle);
+            //await _context.SaveChangesAsync();
+            //return RedirectToAction(nameof(Index));
 
+            await _context.Database.ExecuteSqlInterpolatedAsync($@"
+    EXEC SC_AlquilerVehiculos.SP_AlquilerDetalleInsert
+        @id_alquiler   = {tAlquileresDetalle.IdAlquiler},
+        @id_vehiculo   = {tAlquileresDetalle.IdVehiculo},
+        @tarifa_diaria = {tAlquileresDetalle.TarifaDiaria},
+        @fecha_inicio  = {tAlquileresDetalle.FechaInicio},
+        @fecha_fin     = {tAlquileresDetalle.FechaFin},
+        @subtotal      = {tAlquileresDetalle.Subtotal}
+");
+            return RedirectToAction(nameof(Index));
             ViewData["IdAlquiler"] = new SelectList(_context.TAlquileres, "IdAlquiler", "IdAlquiler", tAlquileresDetalle.IdAlquiler);
             ViewData["IdVehiculo"] = new SelectList(_context.TVehiculos, "IdVehiculo", "IdVehiculo", tAlquileresDetalle.IdVehiculo);
             return View(tAlquileresDetalle);
@@ -129,8 +139,22 @@ namespace ProyectoPrograAvanzada.Controllers
             //}
             try
             {
-                _context.Update(tAlquileresDetalle);
-                await _context.SaveChangesAsync();
+                //_context.Update(tAlquileresDetalle);
+                //await _context.SaveChangesAsync();
+
+
+                await _context.Database.ExecuteSqlInterpolatedAsync($@"
+    EXEC SC_AlquilerVehiculos.SP_AlquilerDetalleUpdate
+        @id_detalle   = {tAlquileresDetalle.IdDetalle},
+        @id_alquiler  = {tAlquileresDetalle.IdAlquiler},
+        @id_vehiculo  = {tAlquileresDetalle.IdVehiculo},
+        @tarifa_diaria = {tAlquileresDetalle.TarifaDiaria},
+        @fecha_inicio  = {tAlquileresDetalle.FechaInicio},
+        @fecha_fin     = {tAlquileresDetalle.FechaFin},
+        @subtotal      = {tAlquileresDetalle.Subtotal}
+");
+
+                return RedirectToAction(nameof(Index));
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -178,10 +202,19 @@ namespace ProyectoPrograAvanzada.Controllers
             var tAlquileresDetalle = await _context.TAlquileresDetalles.FindAsync(id);
             if (tAlquileresDetalle != null)
             {
-                _context.TAlquileresDetalles.Remove(tAlquileresDetalle);
+
+
+                //_context.TAlquileresDetalles.Remove(tAlquileresDetalle);
+
+                await _context.Database.ExecuteSqlInterpolatedAsync($@"
+    EXEC SC_AlquilerVehiculos.SP_AlquilerDetalleDelete
+        @id_detalle = {id}
+");
+
+                return RedirectToAction(nameof(Index));
             }
 
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
