@@ -4,39 +4,26 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Empleados</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Crear Nuevo</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Correo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Telefono)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contrasena)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Puesto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdRolNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdSucursalNavigation)
-            </th>
+            <th>Nombre del Empleado</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Contraseña</th>
+            <th>Puesto del Empleado</th>
+            <th>Rol del Usuario</th>
+            <th>Sucursal</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
+
 @foreach (var item in Model) {
         <tr>
             <td>
@@ -61,9 +48,9 @@
                 @Html.DisplayFor(modelItem => item.IdSucursalNavigation.IdSucursal)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdEmpleado">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdEmpleado">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdEmpleado">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.IdEmpleado">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.IdEmpleado">Detalles</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdEmpleado">Eliminar</a>
             </td>
         </tr>
 }

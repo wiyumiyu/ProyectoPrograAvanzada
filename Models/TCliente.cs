@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProyectoPrograAvanzada.Models;
 
@@ -16,6 +17,7 @@ public partial class TCliente
     public string? Email { get; set; }
 
     public string? Direccion { get; set; }
+
 
     public virtual ICollection<TAlquilere> TAlquileres { get; set; } = new List<TAlquilere>();
 }

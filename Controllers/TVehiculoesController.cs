@@ -49,8 +49,8 @@ namespace ProyectoPrograAvanzada.Controllers
         // GET: TVehiculoes/Create
         public IActionResult Create()
         {
-            ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal");
-            ViewData["IdTipo"] = new SelectList(_context.TVehiculosTipos, "IdTipo", "IdTipo");
+            ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "Nombre");
+            ViewData["IdTipo"] = new SelectList(_context.TVehiculosTipos, "IdTipo", "Descripcion");
             return View();
         }
 
@@ -102,8 +102,9 @@ namespace ProyectoPrograAvanzada.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal", tVehiculo.IdSucursal);
-            ViewData["IdTipo"] = new SelectList(_context.TVehiculosTipos, "IdTipo", "IdTipo", tVehiculo.IdTipo);
+            //ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal", tVehiculo.IdSucursal);
+            ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "Nombre", tVehiculo.IdSucursal);
+            ViewData["IdTipo"] = new SelectList(_context.TVehiculosTipos, "IdTipo", "Descripcion", tVehiculo.IdTipo);
             return View(tVehiculo);
         }
 

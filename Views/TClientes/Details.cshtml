@@ -4,10 +4,10 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Detalles</h1>
 
 <div>
-    <h4>TCliente</h4>
+    <h4>Clientes</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -17,25 +17,25 @@
             @Html.DisplayFor(model => model.Nombre)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cedula)
+            <label>Cédula</label>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Cedula)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Telefono)
+            <label>Teléfono</label>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Telefono)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
+            <label>Correo Electrónico</label>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Email)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Direccion)
+            <label>Dirección</label>
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Direccion)
@@ -43,6 +43,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdCliente">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.IdCliente">Editar</a> |
+    <a asp-action="Index">Regresar</a>
 </div>
