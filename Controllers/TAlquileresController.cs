@@ -194,10 +194,15 @@ namespace ProyectoPrograAvanzada.Controllers
             var tAlquilere = await _context.TAlquileres.FindAsync(id);
             if (tAlquilere != null)
             {
-                _context.TAlquileres.Remove(tAlquilere);
+                await _context.Database.ExecuteSqlInterpolatedAsync($@"
+    EXEC SC_AlquilerVehiculos.SP_AlquilerDelete
+        @id_alquiler = {id}
+");
+
+                return RedirectToAction(nameof(Index));
             }
 
-            await _context.SaveChangesAsync();
+           // await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
