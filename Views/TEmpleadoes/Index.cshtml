@@ -15,7 +15,6 @@
             <th>Nombre del Empleado</th>
             <th>Correo</th>
             <th>Teléfono</th>
-            <th>Contraseña</th>
             <th>Puesto del Empleado</th>
             <th>Rol del Usuario</th>
             <th>Sucursal</th>
@@ -36,16 +35,13 @@
                 @Html.DisplayFor(modelItem => item.Telefono)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Contrasena)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Puesto)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdRolNavigation.IdRol)
+                @Html.DisplayFor(modelItem => item.IdRolNavigation.Rol)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdSucursalNavigation.IdSucursal)
+                @Html.DisplayFor(modelItem => item.IdSucursalNavigation.Nombre)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.IdEmpleado">Editar</a> |

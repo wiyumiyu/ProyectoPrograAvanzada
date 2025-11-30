@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using ProyectoPrograAvanzada.Models;
 
 namespace ProyectoPrograAvanzada.Controllers
 {
+    [Authorize(Roles = "Jefe,Administrador")]
     public class TEmpleadoesController : Controller
     {
         private readonly DbAlquilerVehiculosContext _context;
@@ -46,46 +48,11 @@ namespace ProyectoPrograAvanzada.Controllers
             return View(tEmpleado);
         }
 
-        // GET: TEmpleadoes/Create
+        // GET: TEmpleadoes/Create - Redirigir a Account/Register
         public IActionResult Create()
         {
-            ViewData["IdRol"] = new SelectList(_context.TRoles, "IdRol", "IdRol");
-            ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal");
-            return View();
-        }
-
-        // POST: TEmpleadoes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdEmpleado,Nombre,Correo,Telefono,Contrasena,Puesto,IdSucursal,IdRol")] TEmpleado tEmpleado)
-        {
-            //if (ModelState.IsValid)
-            //{
-            //    _context.Add(tEmpleado);
-            //    await _context.SaveChangesAsync();
-            //    return RedirectToAction(nameof(Index));
-            //}
-
-            await _context.Database.ExecuteSqlInterpolatedAsync($@"
-    EXEC SC_AlquilerVehiculos.SP_EmpleadoInsert
-        @nombre      = {tEmpleado.Nombre},
-        @correo      = {tEmpleado.Correo},
-        @telefono    = {tEmpleado.Telefono},
-        @contrasena  = {tEmpleado.Contrasena},
-        @puesto      = {tEmpleado.Puesto},
-        @id_sucursal = {tEmpleado.IdSucursal},
-        @id_rol      = {tEmpleado.IdRol}
-");
-
-            return RedirectToAction(nameof(Index));
-
-
-
-            ViewData["IdRol"] = new SelectList(_context.TRoles, "IdRol", "IdRol", tEmpleado.IdRol);
-            ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal", tEmpleado.IdSucursal);
-            return View(tEmpleado);
+            TempData["InfoMessage"] = "Para crear un nuevo empleado, utiliza el sistema de registro de usuarios.";
+            return RedirectToAction("Register", "Account");
         }
 
         // GET: TEmpleadoes/Edit/5
@@ -101,62 +68,45 @@ namespace ProyectoPrograAvanzada.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdRol"] = new SelectList(_context.TRoles, "IdRol", "IdRol", tEmpleado.IdRol);
-            ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal", tEmpleado.IdSucursal);
+            ViewData["IdRol"] = new SelectList(_context.TRoles, "IdRol", "Rol", tEmpleado.IdRol);
+            ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "Nombre", tEmpleado.IdSucursal);
             return View(tEmpleado);
         }
 
         // POST: TEmpleadoes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // NOTA: NO se permite cambiar la contraseña desde aquí, solo datos básicos
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdEmpleado,Nombre,Correo,Telefono,Contrasena,Puesto,IdSucursal,IdRol")] TEmpleado tEmpleado)
+        public async Task<IActionResult> Edit(int id, [Bind("IdEmpleado,Nombre,Correo,Telefono,Puesto,IdSucursal,IdRol")] TEmpleado tEmpleado)
         {
             if (id != tEmpleado.IdEmpleado)
             {
                 return NotFound();
             }
 
-            //if (ModelState.IsValid)
-            //{
-            //    try
-            //    {
-            //        _context.Update(tEmpleado);
-            //        await _context.SaveChangesAsync();
-            //    }
-            //    catch (DbUpdateConcurrencyException)
-            //    {
-            //        if (!TEmpleadoExists(tEmpleado.IdEmpleado))
-            //        {
-            //            return NotFound();
-            //        }
-            //        else
-            //        {
-            //            throw;
-            //        }
-            //    }
-            //    return RedirectToAction(nameof(Index));
-            //}
-
-
             try
             {
-                //_context.Update(tEmpleado);
-                //await _context.SaveChangesAsync();
+                // Obtener el empleado actual para mantener su hash de contraseña
+                var empleadoActual = await _context.TEmpleados.AsNoTracking().FirstOrDefaultAsync(e => e.IdEmpleado == id);
+                if (empleadoActual == null)
+                {
+                    return NotFound();
+                }
 
+                // Ejecutar SP con la contraseña actual (sin cambios)
                 await _context.Database.ExecuteSqlInterpolatedAsync($@"
-    EXEC SC_AlquilerVehiculos.SP_EmpleadoUpdate
-        @id_empleado = {tEmpleado.IdEmpleado},
-        @nombre      = {tEmpleado.Nombre},
-        @correo      = {tEmpleado.Correo},
-        @telefono    = {tEmpleado.Telefono},
-        @contrasena  = {tEmpleado.Contrasena},
-        @puesto      = {tEmpleado.Puesto},
-        @id_sucursal = {tEmpleado.IdSucursal},
-        @id_rol      = {tEmpleado.IdRol}
-");
+                    EXEC SC_AlquilerVehiculos.SP_EmpleadoUpdate
+                        @id_empleado = {tEmpleado.IdEmpleado},
+                        @nombre      = {tEmpleado.Nombre},
+                        @correo      = {tEmpleado.Correo},
+                        @telefono    = {tEmpleado.Telefono},
+                        @contrasena_hash  = {empleadoActual.ContraseñaHash},
+                        @puesto      = {tEmpleado.Puesto},
+                        @id_sucursal = {tEmpleado.IdSucursal},
+                        @id_rol      = {tEmpleado.IdRol}
+                ");
 
+                TempData["SuccessMessage"] = "Empleado actualizado exitosamente";
                 return RedirectToAction(nameof(Index));
             }
             catch (DbUpdateConcurrencyException)
@@ -170,10 +120,13 @@ namespace ProyectoPrograAvanzada.Controllers
                     throw;
                 }
             }
-            return RedirectToAction(nameof(Index));
-            ViewData["IdRol"] = new SelectList(_context.TRoles, "IdRol", "IdRol", tEmpleado.IdRol);
-            ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal", tEmpleado.IdSucursal);
-            return View(tEmpleado);
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"Error al actualizar: {ex.Message}");
+                ViewData["IdRol"] = new SelectList(_context.TRoles, "IdRol", "Rol", tEmpleado.IdRol);
+                ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "Nombre", tEmpleado.IdSucursal);
+                return View(tEmpleado);
+            }
         }
 
         // GET: TEmpleadoes/Delete/5
@@ -201,14 +154,21 @@ namespace ProyectoPrograAvanzada.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var tEmpleado = await _context.TEmpleados.FindAsync(id);
-            if (tEmpleado != null)
+            try
             {
-                _context.TEmpleados.Remove(tEmpleado);
-            }
+                await _context.Database.ExecuteSqlInterpolatedAsync($@"
+                    EXEC SC_AlquilerVehiculos.SP_EmpleadoDelete
+                        @id_empleado = {id}
+                ");
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+                TempData["SuccessMessage"] = "Empleado eliminado exitosamente";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"No se puede eliminar el empleado: {ex.Message}";
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         private bool TEmpleadoExists(int id)

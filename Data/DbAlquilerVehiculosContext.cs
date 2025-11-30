@@ -192,10 +192,9 @@ public partial class DbAlquilerVehiculosContext : DbContext
             entity.HasIndex(e => e.IdSucursal, "IX_empleados_sucursal");
 
             entity.Property(e => e.IdEmpleado).HasColumnName("id_empleado");
-            entity.Property(e => e.Contrasena)
-                .HasMaxLength(100)
-                .IsUnicode(false)
-                .HasColumnName("contrasena");
+            entity.Property(e => e.ContraseñaHash)
+                .HasMaxLength(256)
+                .HasColumnName("contrasena_hash");
             entity.Property(e => e.Correo)
                 .HasMaxLength(100)
                 .IsUnicode(false)

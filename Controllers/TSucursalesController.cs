@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProyectoPrograAvanzada.Data;
@@ -9,6 +10,7 @@ using ProyectoPrograAvanzada.Models;
 
 namespace ProyectoPrograAvanzada.Controllers
 {
+    [Authorize(Roles = "Jefe,Administrador")]
     public class TSucursalesController : Controller
     {
         private readonly DbAlquilerVehiculosContext _context;

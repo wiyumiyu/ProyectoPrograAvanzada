@@ -35,13 +35,6 @@
         </dd>
 
         <dt class="col-sm-2">
-            Contraseña
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Contrasena)
-        </dd>
-
-        <dt class="col-sm-2">
             Puesto del Empleado
         </dt>
         <dd class="col-sm-10">
@@ -52,14 +45,14 @@
             Rol del Usuario
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IdRolNavigation.IdRol)
+            @Html.DisplayFor(model => model.IdRolNavigation.Rol)
         </dd>
 
         <dt class="col-sm-2">
             Sucursal
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IdSucursalNavigation.IdSucursal)
+            @Html.DisplayFor(model => model.IdSucursalNavigation.Nombre)
         </dd>
 
     </dl>

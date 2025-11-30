@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using ProyectoPrograAvanzada.Models;
 
 namespace ProyectoPrograAvanzada.Controllers
 {
+    [Authorize]
     public class TVehiculosTipoesController : Controller
     {
         private readonly DbAlquilerVehiculosContext _context;
@@ -44,6 +46,7 @@ namespace ProyectoPrograAvanzada.Controllers
         }
 
         // GET: TVehiculosTipoes/Create
+        [Authorize(Roles = "Jefe,Administrador")]
         public IActionResult Create()
         {
             return View();
@@ -52,6 +55,7 @@ namespace ProyectoPrograAvanzada.Controllers
         // POST: TVehiculosTipoes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Jefe,Administrador")]
         public async Task<IActionResult> Create([Bind("IdTipo,Descripcion,TarifaDiaria")] TVehiculosTipo tVehiculosTipo)
         {
             // Código original del scaffolding:
@@ -76,6 +80,7 @@ namespace ProyectoPrograAvanzada.Controllers
         }
 
         // GET: TVehiculosTipoes/Edit/5
+        [Authorize(Roles = "Jefe,Administrador")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -94,6 +99,7 @@ namespace ProyectoPrograAvanzada.Controllers
         // POST: TVehiculosTipoes/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Jefe,Administrador")]
         public async Task<IActionResult> Edit(int id, [Bind("IdTipo,Descripcion,TarifaDiaria")] TVehiculosTipo tVehiculosTipo)
         {
             if (id != tVehiculosTipo.IdTipo)
@@ -138,6 +144,7 @@ namespace ProyectoPrograAvanzada.Controllers
         }
 
         // GET: TVehiculosTipoes/Delete/5
+        [Authorize(Roles = "Jefe,Administrador")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -158,6 +165,7 @@ namespace ProyectoPrograAvanzada.Controllers
         // POST: TVehiculosTipoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Jefe,Administrador")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             // Código original del scaffolding:
