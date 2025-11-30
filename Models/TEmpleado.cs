@@ -13,7 +13,7 @@ public partial class TEmpleado
 
     public string? Telefono { get; set; }
 
-    public string Contrasena { get; set; } = null!;
+    public string ContraseñaHash { get; set; } = null!;
 
     public string Puesto { get; set; } = null!;
 

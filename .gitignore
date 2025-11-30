@@ -1,0 +1,4 @@
+# Carpetas que NUNCA deben subirse
+.vs/
+bin/
+obj/

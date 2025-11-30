@@ -1,8 +1,157 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="jumbotron p-5 rounded-3" style="background: linear-gradient(135deg, #003973 0%, #005fa3 100%);">
+            <h1 class="display-4 text-white">
+                <i class="bi bi-car-front-fill me-3"></i>
+                Bienvenido al Sistema de Alquiler de Vehículos
+            </h1>
+            <p class="lead text-white mt-3">
+                Hola, <strong>@User.Identity?.Name</strong>! 
+                @{
+                    var rol = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+                    var sucursal = User.FindFirst("Sucursal")?.Value;
+                }
+                <br />
+                <small>Rol: @rol | Sucursal: @sucursal</small>
+            </p>
+            <hr class="my-4 bg-white" />
+            <p class="text-white">
+                <i class="bi bi-info-circle me-2"></i>
+                Gestiona clientes, vehículos, alquileres y más desde este sistema integral.
+            </p>
+        </div>
+    </div>
 </div>
+
+<!-- Tarjetas de acceso rápido -->
+<div class="row g-4 mb-4">
+    <!-- Clientes -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm hover-card">
+            <div class="card-body text-center">
+                <i class="bi bi-people-fill text-primary" style="font-size: 3rem;"></i>
+                <h5 class="card-title mt-3">Clientes</h5>
+                <p class="card-text text-muted">Gestiona la información de tus clientes</p>
+                <a asp-controller="TClientes" asp-action="Index" class="btn btn-outline-primary">
+                    <i class="bi bi-arrow-right me-2"></i>Ver Clientes
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vehículos -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm hover-card">
+            <div class="card-body text-center">
+                <i class="bi bi-car-front text-success" style="font-size: 3rem;"></i>
+                <h5 class="card-title mt-3">Vehículos</h5>
+                <p class="card-text text-muted">Administra tu flota de vehículos</p>
+                <a asp-controller="TVehiculoes" asp-action="Index" class="btn btn-outline-success">
+                    <i class="bi bi-arrow-right me-2"></i>Ver Vehículos
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alquileres -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm hover-card">
+            <div class="card-body text-center">
+                <i class="bi bi-calendar-check text-warning" style="font-size: 3rem;"></i>
+                <h5 class="card-title mt-3">Alquileres</h5>
+                <p class="card-text text-muted">Registra y consulta alquileres</p>
+                <a asp-controller="TAlquileres" asp-action="Index" class="btn btn-outline-warning">
+                    <i class="bi bi-arrow-right me-2"></i>Ver Alquileres
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sucursales -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm hover-card">
+            <div class="card-body text-center">
+                <i class="bi bi-building text-info" style="font-size: 3rem;"></i>
+                <h5 class="card-title mt-3">Sucursales</h5>
+                <p class="card-text text-muted">Gestiona las sucursales</p>
+                <a asp-controller="TSucursales" asp-action="Index" class="btn btn-outline-info">
+                    <i class="bi bi-arrow-right me-2"></i>Ver Sucursales
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Accesos administrativos (solo para Jefe y Administrador) -->
+@if (User.IsInRole("Jefe") || User.IsInRole("Administrador"))
+{
+    <div class="row g-4">
+        <div class="col-12">
+            <h4 class="mb-3">
+                <i class="bi bi-gear-fill me-2"></i>Panel Administrativo
+            </h4>
+        </div>
+
+        <!-- Empleados -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm hover-card border-primary">
+                <div class="card-body">
+                    <i class="bi bi-person-badge-fill text-primary" style="font-size: 2.5rem;"></i>
+                    <h5 class="card-title mt-3">Empleados</h5>
+                    <p class="card-text text-muted">Administra empleados del sistema</p>
+                    <a asp-controller="TEmpleadoes" asp-action="Index" class="btn btn-primary">
+                        <i class="bi bi-arrow-right me-2"></i>Gestionar
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registrar Usuario -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm hover-card border-success">
+                <div class="card-body">
+                    <i class="bi bi-person-plus-fill text-success" style="font-size: 2.5rem;"></i>
+                    <h5 class="card-title mt-3">Registrar Usuario</h5>
+                    <p class="card-text text-muted">Crear nuevos usuarios del sistema</p>
+                    <a asp-controller="Account" asp-action="Register" class="btn btn-success">
+                        <i class="bi bi-plus-circle me-2"></i>Nuevo Usuario
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bitácoras -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm hover-card border-dark">
+                <div class="card-body">
+                    <i class="bi bi-journal-text text-dark" style="font-size: 2.5rem;"></i>
+                    <h5 class="card-title mt-3">Bitácoras</h5>
+                    <p class="card-text text-muted">Consulta el registro de auditoría</p>
+                    <a asp-controller="TBitacoras" asp-action="Index" class="btn btn-dark">
+                        <i class="bi bi-arrow-right me-2"></i>Ver Bitácoras
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<style>
+    .hover-card {
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .jumbotron {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+</style>
