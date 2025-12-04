@@ -33,7 +33,7 @@ namespace ProyectoPrograAvanzada.Controllers
         // POST: Account/Login
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken] //protección contra ataques CSRF
         public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
