@@ -1,3 +1,23 @@
+/*
+borrar sucursales con empleados
+crear empleado con correo default
+
+labels
+
+
+vehiculo
+estado de vehiculo debe ser select
+tipo de vehiculo debe ser select
+texto de idsucursal
+validar año > 1950
+
+hacer alquiler
+
+bitácora, que no crezca hacia el lado derecho
+*/
+
+
+
 USE DB_AlquilerVehiculos;
 GO
 
@@ -57,7 +77,7 @@ END
 GO
 
 -- Insertar Usuario Administrador por defecto
--- Contraseña: Admin123! 
+-- Contraseña: 1234 
 -- Hash generado con ASP.NET Core Identity: AQAAAAIAAYagAAAAELK8qVz5xH0YqX3nR4jJ5xqJ7F5bF9fZ3c0x8v5w2a1b6c9d8e7f0g1h2i3j4k5l6m7n8o9p0q==
 -- NOTA: Este es solo un ejemplo, el hash real se generará al registrar el usuario desde la aplicación
 

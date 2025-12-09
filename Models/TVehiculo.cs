@@ -5,6 +5,8 @@ namespace ProyectoPrograAvanzada.Models;
 
 public partial class TVehiculo
 {
+    internal string estado;
+
     public int IdVehiculo { get; set; }
 
     public string Placa { get; set; } = null!;

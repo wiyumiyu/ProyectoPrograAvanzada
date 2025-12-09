@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProyectoPrograAvanzada.Data;
 using ProyectoPrograAvanzada.Models;
+using ProyectoPrograAvanzada.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ProyectoPrograAvanzada.Controllers
 {
@@ -50,48 +51,118 @@ namespace ProyectoPrograAvanzada.Controllers
         }
 
         // GET: TAlquileres/Create
+        //public IActionResult Create()
+        //{
+        //    ViewData["IdCliente"] = new SelectList(_context.TClientes, "IdCliente", "IdCliente");
+        //    ViewData["IdEmpleado"] = new SelectList(_context.TEmpleados, "IdEmpleado", "IdEmpleado");
+        //    ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal");
+        //    return View();
+        //}
+
+
         public IActionResult Create()
         {
-            ViewData["IdCliente"] = new SelectList(_context.TClientes, "IdCliente", "IdCliente");
-            ViewData["IdEmpleado"] = new SelectList(_context.TEmpleados, "IdEmpleado", "IdEmpleado");
-            ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal");
-            return View();
+            var vm = new AlquilerCreateVM();
+
+            ViewBag.Clientes = _context.TClientes.ToList();
+            ViewBag.Empleados = _context.TEmpleados.ToList();
+            ViewBag.Vehiculos = _context.TVehiculos
+                                        .Where(v => v.estado == "Disponible")
+                                        .ToList();
+            ViewBag.Sucursales = _context.TSucursales.ToList();
+
+            return View(vm);
         }
+
 
         // POST: TAlquileres/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //        [HttpPost]
+        //        [ValidateAntiForgeryToken]
+        //        public async Task<IActionResult> Create([Bind("IdAlquiler,FechaInicio,FechaFin,Iva,IdCliente,IdEmpleado,IdSucursal,Estado")] TAlquilere tAlquilere)
+        //        {
+        //            //if (ModelState.IsValid)
+        //            //{
+
+        //            //}
+
+        //            //            _context.Add(tAlquilere);
+        //            //          await _context.SaveChangesAsync();
+        //            //        return RedirectToAction(nameof(Index));
+
+        //            await _context.Database.ExecuteSqlInterpolatedAsync($@"
+        //    EXEC SC_AlquilerVehiculos.SP_AlquilerInsert
+        //        @fecha_inicio = {tAlquilere.FechaInicio},
+        //        @fecha_fin    = {tAlquilere.FechaFin},
+        //        @iva          = {tAlquilere.Iva},
+        //        @id_cliente   = {tAlquilere.IdCliente},
+        //        @id_empleado  = {tAlquilere.IdEmpleado},
+        //        @id_sucursal  = {tAlquilere.IdSucursal},
+        //        @estado       = {tAlquilere.Estado}
+        //");
+
+        //            return RedirectToAction(nameof(Index));
+
+        //            ViewData["IdCliente"] = new SelectList(_context.TClientes, "IdCliente", "IdCliente", tAlquilere.IdCliente);
+        //            ViewData["IdEmpleado"] = new SelectList(_context.TEmpleados, "IdEmpleado", "IdEmpleado", tAlquilere.IdEmpleado);
+        //            ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal", tAlquilere.IdSucursal);
+        //            return View(tAlquilere);
+        //        }
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdAlquiler,FechaInicio,FechaFin,Iva,IdCliente,IdEmpleado,IdSucursal,Estado")] TAlquilere tAlquilere)
+        public IActionResult Create(AlquilerCreateVM vm)
         {
-            //if (ModelState.IsValid)
-            //{
+            if (!vm.Detalles.Any())
+            {
+                ModelState.AddModelError("", "Debe agregar al menos un vehículo.");
+                return View(vm);
+            }
 
-            //}
+            // 1. Crear el encabezado con fechas NULL
+            var alquiler = new TAlquilere
+            {
+                //FechaInicio = null,
+                FechaFin = null,
+                Iva = vm.IVA,
+                IdCliente = vm.IdCliente,
+                IdEmpleado = vm.IdEmpleado,
+                IdSucursal = vm.IdSucursal,
+                Estado = "Activo"
+            };
 
-            //            _context.Add(tAlquilere);
-            //          await _context.SaveChangesAsync();
-            //        return RedirectToAction(nameof(Index));
+            _context.TAlquileres.Add(alquiler);
+            _context.SaveChanges();
 
-            await _context.Database.ExecuteSqlInterpolatedAsync($@"
-    EXEC SC_AlquilerVehiculos.SP_AlquilerInsert
-        @fecha_inicio = {tAlquilere.FechaInicio},
-        @fecha_fin    = {tAlquilere.FechaFin},
-        @iva          = {tAlquilere.Iva},
-        @id_cliente   = {tAlquilere.IdCliente},
-        @id_empleado  = {tAlquilere.IdEmpleado},
-        @id_sucursal  = {tAlquilere.IdSucursal},
-        @estado       = {tAlquilere.Estado}
-");
+            // 2. Insertar detalle
+            foreach (var det in vm.Detalles)
+            {
+                decimal subtotal = det.TarifaDiaria *
+                                   (decimal)(det.FechaFin - det.FechaInicio).TotalDays;
 
-            return RedirectToAction(nameof(Index));
+                var detalle = new TAlquileresDetalle
+                {
+                    IdAlquiler = alquiler.IdAlquiler,
+                    IdVehiculo = det.IdVehiculo,
+                    TarifaDiaria = det.TarifaDiaria,
+                    FechaInicio = det.FechaInicio,
+                    FechaFin = det.FechaFin,
+                    Subtotal = subtotal
+                };
 
-            ViewData["IdCliente"] = new SelectList(_context.TClientes, "IdCliente", "IdCliente", tAlquilere.IdCliente);
-            ViewData["IdEmpleado"] = new SelectList(_context.TEmpleados, "IdEmpleado", "IdEmpleado", tAlquilere.IdEmpleado);
-            ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal", tAlquilere.IdSucursal);
-            return View(tAlquilere);
+                _context.TAlquileresDetalles.Add(detalle);
+
+                // actualizar estado del vehículo
+                var veh = _context.TVehiculos.Find(det.IdVehiculo);
+                veh.Estado = "Alquilado";
+            }
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Details", new { id = alquiler.IdAlquiler });
         }
+
+
 
         // GET: TAlquileres/Edit/5
         public async Task<IActionResult> Edit(int? id)

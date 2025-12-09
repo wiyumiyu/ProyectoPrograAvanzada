@@ -1,60 +1,75 @@
-﻿@model ProyectoPrograAvanzada.Models.TAlquilere
+﻿@model AlquilerCreateVM
 
-@{
-    ViewData["Title"] = "Create";
-}
+<h2>Nuevo Alquiler</h2>
 
-<h1>Create</h1>
+<form asp-action="Create">
 
-<h4>TAlquilere</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FechaInicio" class="control-label"></label>
-                <input asp-for="FechaInicio" class="form-control" />
-                <span asp-validation-for="FechaInicio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaFin" class="control-label"></label>
-                <input asp-for="FechaFin" class="form-control" />
-                <span asp-validation-for="FechaFin" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Iva" class="control-label"></label>
-                <input asp-for="Iva" class="form-control" />
-                <span asp-validation-for="Iva" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdCliente" class="control-label"></label>
-                <select asp-for="IdCliente" class ="form-control" asp-items="ViewBag.IdCliente"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdEmpleado" class="control-label"></label>
-                <select asp-for="IdEmpleado" class ="form-control" asp-items="ViewBag.IdEmpleado"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdSucursal" class="control-label"></label>
-                <select asp-for="IdSucursal" class ="form-control" asp-items="ViewBag.IdSucursal"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Estado" class="control-label"></label>
-                <input asp-for="Estado" class="form-control" />
-                <span asp-validation-for="Estado" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+    <label>Cliente:</label>
+    <select asp-for="IdCliente" class="form-control">
+        @foreach (var c in ViewBag.Clientes)
+        {
+            <option value="@c.IdCliente">@c.Nombre</option>
+        }
+    </select>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <label>Empleado:</label>
+    <select asp-for="IdEmpleado" class="form-control">
+        @foreach (var e in ViewBag.Empleados)
+        {
+            <option value="@e.IdEmpleado">@e.Nombre</option>
+        }
+    </select>
+
+    <label>Sucursal:</label>
+    <select asp-for="IdSucursal" class="form-control">
+        @foreach (var s in ViewBag.Sucursales)
+        {
+            <option value="@s.IdSucursal">@s.Nombre</option>
+        }
+    </select>
+
+    <hr />
+
+    <h3>Agregar Vehículos</h3>
+
+    <div id="detalles-container"></div>
+
+    <button type="button" class="btn btn-secondary" onclick="agregarDetalle()">Agregar Vehículo</button>
+
+    <hr />
+
+    <button class="btn btn-primary">Guardar</button>
+</form>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function agregarDetalle() {
+            let html = `
+                <div class="detalle-item border p-2 my-2">
+                    <select name="Detalles[index].IdVehiculo" class="form-control">
+                        @foreach (var v in ViewBag.Vehiculos)
+                        {
+                                <option value="@v.IdVehiculo">@v.Placa - @v.Marca</option>
+                        }
+                    </select>
+
+                    <input type="number" step="0.01" name="Detalles[index].TarifaDiaria" placeholder="Tarifa diaria" class="form-control" />
+
+                    <label>Fecha inicio</label>
+                    <input type="date" name="Detalles[index].FechaInicio" class="form-control" />
+
+                    <label>Fecha fin</label>
+                    <input type="date" name="Detalles[index].FechaFin" class="form-control" />
+                </div>
+            `;
+
+            let cont = document.getElementById("detalles-container");
+            let index = document.getElementsByClassName("detalle-item").length;
+
+            html = html.replace(/index/g, index);
+
+            cont.insertAdjacentHTML("beforeend", html);
+        }
+    </script>
 }
+
