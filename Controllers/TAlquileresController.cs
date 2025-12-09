@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProyectoPrograAvanzada.Data;
 using ProyectoPrograAvanzada.Models;
+using ProyectoPrograAvanzada.Services;
 using ProyectoPrograAvanzada.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace ProyectoPrograAvanzada.Controllers
 {
@@ -22,94 +20,73 @@ namespace ProyectoPrograAvanzada.Controllers
             _context = context;
         }
 
-        // GET: TAlquileres
+        // ========================================================
+        // LISTA
+        // ========================================================
         public async Task<IActionResult> Index()
         {
-            var dbAlquilerVehiculosContext = _context.TAlquileres.Include(t => t.IdClienteNavigation).Include(t => t.IdEmpleadoNavigation).Include(t => t.IdSucursalNavigation);
-            return View(await dbAlquilerVehiculosContext.ToListAsync());
-        }
-
-        // GET: TAlquileres/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var tAlquilere = await _context.TAlquileres
+            var data = _context.TAlquileres
                 .Include(t => t.IdClienteNavigation)
                 .Include(t => t.IdEmpleadoNavigation)
-                .Include(t => t.IdSucursalNavigation)
-                .FirstOrDefaultAsync(m => m.IdAlquiler == id);
-            if (tAlquilere == null)
-            {
-                return NotFound();
-            }
+                .Include(t => t.IdSucursalNavigation);
 
-            return View(tAlquilere);
+            return View(await data.ToListAsync());
         }
 
-        // GET: TAlquileres/Create
-        //public IActionResult Create()
-        //{
-        //    ViewData["IdCliente"] = new SelectList(_context.TClientes, "IdCliente", "IdCliente");
-        //    ViewData["IdEmpleado"] = new SelectList(_context.TEmpleados, "IdEmpleado", "IdEmpleado");
-        //    ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal");
-        //    return View();
-        //}
+        // ========================================================
+        // DETALLE
+        // ========================================================
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null) return NotFound();
 
+            var alquiler = await _context.TAlquileres
+                .Include(a => a.IdClienteNavigation)
+                .Include(a => a.IdEmpleadoNavigation)
+                .Include(a => a.IdSucursalNavigation)
+                .Include(a => a.TAlquileresDetalles)
+                .ThenInclude(d => d.IdVehiculoNavigation)
+                .FirstOrDefaultAsync(a => a.IdAlquiler == id);
 
+            if (alquiler == null) return NotFound();
+
+            return View(alquiler);
+        }
+
+        // ========================================================
+        // CREAR (GET)
+        // ========================================================
         public IActionResult Create()
         {
             var vm = new AlquilerCreateVM();
 
+            // Empleado del usuario autenticado
+            var idEmpleado = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            vm.IdEmpleado = idEmpleado;
+            
             ViewBag.Clientes = _context.TClientes.ToList();
-            ViewBag.Empleados = _context.TEmpleados.ToList();
             ViewBag.Vehiculos = _context.TVehiculos
-                                        .Where(v => v.estado == "Disponible")
-                                        .ToList();
+                .Include(v => v.IdTipoNavigation)
+                .Where(v => v.Estado == "Disponible")
+                .Select(v => new
+                {
+                    idVehiculo = v.IdVehiculo,
+                    placa = v.Placa,
+                    marca = v.Marca,
+                    tarifa = v.IdTipoNavigation.TarifaDiaria
+                })
+                .ToList();
+
+
             ViewBag.Sucursales = _context.TSucursales.ToList();
+     
 
             return View(vm);
         }
 
-
-        // POST: TAlquileres/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //        [HttpPost]
-        //        [ValidateAntiForgeryToken]
-        //        public async Task<IActionResult> Create([Bind("IdAlquiler,FechaInicio,FechaFin,Iva,IdCliente,IdEmpleado,IdSucursal,Estado")] TAlquilere tAlquilere)
-        //        {
-        //            //if (ModelState.IsValid)
-        //            //{
-
-        //            //}
-
-        //            //            _context.Add(tAlquilere);
-        //            //          await _context.SaveChangesAsync();
-        //            //        return RedirectToAction(nameof(Index));
-
-        //            await _context.Database.ExecuteSqlInterpolatedAsync($@"
-        //    EXEC SC_AlquilerVehiculos.SP_AlquilerInsert
-        //        @fecha_inicio = {tAlquilere.FechaInicio},
-        //        @fecha_fin    = {tAlquilere.FechaFin},
-        //        @iva          = {tAlquilere.Iva},
-        //        @id_cliente   = {tAlquilere.IdCliente},
-        //        @id_empleado  = {tAlquilere.IdEmpleado},
-        //        @id_sucursal  = {tAlquilere.IdSucursal},
-        //        @estado       = {tAlquilere.Estado}
-        //");
-
-        //            return RedirectToAction(nameof(Index));
-
-        //            ViewData["IdCliente"] = new SelectList(_context.TClientes, "IdCliente", "IdCliente", tAlquilere.IdCliente);
-        //            ViewData["IdEmpleado"] = new SelectList(_context.TEmpleados, "IdEmpleado", "IdEmpleado", tAlquilere.IdEmpleado);
-        //            ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal", tAlquilere.IdSucursal);
-        //            return View(tAlquilere);
-        //        }
-
+        // ========================================================
+        // CREAR (POST)
+        // ========================================================
         [HttpPost]
         public IActionResult Create(AlquilerCreateVM vm)
         {
@@ -119,7 +96,7 @@ namespace ProyectoPrograAvanzada.Controllers
                 return View(vm);
             }
 
-            // 1. Crear el encabezado con fechas NULL
+            // 1. Crear encabezado
             var alquiler = new TAlquilere
             {
                 //FechaInicio = null,
@@ -137,22 +114,24 @@ namespace ProyectoPrograAvanzada.Controllers
             // 2. Insertar detalle
             foreach (var det in vm.Detalles)
             {
-                decimal subtotal = det.TarifaDiaria *
-                                   (decimal)(det.FechaFin - det.FechaInicio).TotalDays;
+                var dias = (det.FechaFin.Date - det.FechaInicio.Date).TotalDays;
+                if (dias <= 0) dias = 1;
+
+                decimal subtotal = det.TarifaDiaria * (decimal)dias;
 
                 var detalle = new TAlquileresDetalle
                 {
                     IdAlquiler = alquiler.IdAlquiler,
                     IdVehiculo = det.IdVehiculo,
                     TarifaDiaria = det.TarifaDiaria,
-                    FechaInicio = det.FechaInicio,
-                    FechaFin = det.FechaFin,
+                    FechaInicio = DateOnly.FromDateTime(det.FechaInicio),
+                    FechaFin = DateOnly.FromDateTime(det.FechaFin),
                     Subtotal = subtotal
                 };
 
                 _context.TAlquileresDetalles.Add(detalle);
 
-                // actualizar estado del vehículo
+                // Cambiar estado del vehículo
                 var veh = _context.TVehiculos.Find(det.IdVehiculo);
                 veh.Estado = "Alquilado";
             }
@@ -162,126 +141,89 @@ namespace ProyectoPrograAvanzada.Controllers
             return RedirectToAction("Details", new { id = alquiler.IdAlquiler });
         }
 
-
-
-        // GET: TAlquileres/Edit/5
+        // ========================================================
+        // EDITAR
+        // ========================================================
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var tAlquilere = await _context.TAlquileres.FindAsync(id);
-            if (tAlquilere == null)
-            {
-                return NotFound();
-            }
-            ViewData["IdCliente"] = new SelectList(_context.TClientes, "IdCliente", "IdCliente", tAlquilere.IdCliente);
-            ViewData["IdEmpleado"] = new SelectList(_context.TEmpleados, "IdEmpleado", "IdEmpleado", tAlquilere.IdEmpleado);
-            ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal", tAlquilere.IdSucursal);
+            if (tAlquilere == null) return NotFound();
+
             return View(tAlquilere);
         }
 
-        // POST: TAlquileres/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdAlquiler,FechaInicio,FechaFin,Iva,IdCliente,IdEmpleado,IdSucursal,Estado")] TAlquilere tAlquilere)
-        {
-            if (id != tAlquilere.IdAlquiler)
-            {
-                return NotFound();
-            }
-
-            //if (ModelState.IsValid)
-            //{
-
-            //}
-            try
-            {
-                //  _context.Update(tAlquilere);
-                // await _context.SaveChangesAsync();
-
-                await _context.Database.ExecuteSqlInterpolatedAsync($@"
-    EXEC SC_AlquilerVehiculos.SP_AlquilerUpdate
-        @id_alquiler = {tAlquilere.IdAlquiler},
-        @fecha_inicio = {tAlquilere.FechaInicio},
-        @fecha_fin    = {tAlquilere.FechaFin},
-        @iva          = {tAlquilere.Iva},
-        @id_cliente   = {tAlquilere.IdCliente},
-        @id_empleado  = {tAlquilere.IdEmpleado},
-        @id_sucursal  = {tAlquilere.IdSucursal},
-        @estado       = {tAlquilere.Estado}
-");
-
-                return RedirectToAction(nameof(Index));
-
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TAlquilereExists(tAlquilere.IdAlquiler))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return RedirectToAction(nameof(Index));
-
-            ViewData["IdCliente"] = new SelectList(_context.TClientes, "IdCliente", "IdCliente", tAlquilere.IdCliente);
-            ViewData["IdEmpleado"] = new SelectList(_context.TEmpleados, "IdEmpleado", "IdEmpleado", tAlquilere.IdEmpleado);
-            ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "IdSucursal", tAlquilere.IdSucursal);
-            return View(tAlquilere);
-        }
-
-        // GET: TAlquileres/Delete/5
+        // ========================================================
+        // ELIMINAR
+        // ========================================================
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var tAlquilere = await _context.TAlquileres
+            var alquiler = await _context.TAlquileres
                 .Include(t => t.IdClienteNavigation)
                 .Include(t => t.IdEmpleadoNavigation)
                 .Include(t => t.IdSucursalNavigation)
                 .FirstOrDefaultAsync(m => m.IdAlquiler == id);
-            if (tAlquilere == null)
-            {
-                return NotFound();
-            }
 
-            return View(tAlquilere);
+            if (alquiler == null) return NotFound();
+
+            return View(alquiler);
         }
 
-        // POST: TAlquileres/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var tAlquilere = await _context.TAlquileres.FindAsync(id);
-            if (tAlquilere != null)
-            {
-                await _context.Database.ExecuteSqlInterpolatedAsync($@"
-    EXEC SC_AlquilerVehiculos.SP_AlquilerDelete
-        @id_alquiler = {id}
-");
+            var entity = await _context.TAlquileres.FindAsync(id);
 
-                return RedirectToAction(nameof(Index));
+            if (entity != null)
+            {
+                _context.TAlquileres.Remove(entity);
+                await _context.SaveChangesAsync();
             }
 
-           // await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool TAlquilereExists(int id)
         {
             return _context.TAlquileres.Any(e => e.IdAlquiler == id);
+        }
+
+        // ========================================================
+        // (PASO 5) OBTENER TARIFA AUTOMÁTICA
+        // ========================================================
+        [HttpGet]
+        public IActionResult ObtenerTarifa(int idVehiculo)
+        {
+            var vehiculo = _context.TVehiculos
+                .Include(v => v.IdTipoNavigation)
+                .FirstOrDefault(v => v.IdVehiculo == idVehiculo);
+
+            if (vehiculo == null)
+                return NotFound();
+
+            return Json(new { tarifa = vehiculo.IdTipoNavigation.TarifaDiaria });
+        }
+
+        // ========================================================
+        // PDF
+        // ========================================================
+        public IActionResult GenerarRecibo(int idAlquiler)
+        {
+            var alquiler = _context.TAlquileres
+                .Include(a => a.TAlquileresDetalles)
+                .Include(a => a.IdClienteNavigation)
+                .FirstOrDefault(a => a.IdAlquiler == idAlquiler);
+
+            if (alquiler == null)
+                return NotFound();
+
+            var pdf = PdfGeneratorService.GenerarRecibo(alquiler);
+
+            return File(pdf, "application/pdf", $"Recibo_{idAlquiler}.pdf");
         }
     }
 }

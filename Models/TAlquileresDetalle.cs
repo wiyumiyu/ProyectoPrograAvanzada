@@ -23,8 +23,5 @@ public partial class TAlquileresDetalle
 
     public virtual TVehiculo IdVehiculoNavigation { get; set; } = null!;
 
-    public static implicit operator TAlquileresDetalle(TAlquileresDetalle v)
-    {
-        throw new NotImplementedException();
-    }
+   
 }

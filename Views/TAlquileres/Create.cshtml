@@ -1,75 +1,273 @@
-﻿@model AlquilerCreateVM
+﻿@using ProyectoPrograAvanzada.ViewModels
+@model AlquilerCreateVM
 
-<h2>Nuevo Alquiler</h2>
+<h2 class="mb-4 text-primary fw-bold">Nuevo Alquiler</h2>
 
-<form asp-action="Create">
+<form asp-action="Create" id="alquilerForm">
 
-    <label>Cliente:</label>
-    <select asp-for="IdCliente" class="form-control">
-        @foreach (var c in ViewBag.Clientes)
-        {
-            <option value="@c.IdCliente">@c.Nombre</option>
-        }
-    </select>
+    <!-- ========================= ENCABEZADO ========================= -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Información</h5>
+        </div>
 
-    <label>Empleado:</label>
-    <select asp-for="IdEmpleado" class="form-control">
-        @foreach (var e in ViewBag.Empleados)
-        {
-            <option value="@e.IdEmpleado">@e.Nombre</option>
-        }
-    </select>
+        <div class="card-body">
 
-    <label>Sucursal:</label>
-    <select asp-for="IdSucursal" class="form-control">
-        @foreach (var s in ViewBag.Sucursales)
-        {
-            <option value="@s.IdSucursal">@s.Nombre</option>
-        }
-    </select>
-
-    <hr />
-
-    <h3>Agregar Vehículos</h3>
-
-    <div id="detalles-container"></div>
-
-    <button type="button" class="btn btn-secondary" onclick="agregarDetalle()">Agregar Vehículo</button>
-
-    <hr />
-
-    <button class="btn btn-primary">Guardar</button>
-</form>
-
-@section Scripts {
-    <script>
-        function agregarDetalle() {
-            let html = `
-                <div class="detalle-item border p-2 my-2">
-                    <select name="Detalles[index].IdVehiculo" class="form-control">
-                        @foreach (var v in ViewBag.Vehiculos)
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Cliente</label>
+                    <select asp-for="IdCliente" class="form-select">
+                        <option value="">Seleccione...</option>
+                        @foreach (var c in ViewBag.Clientes)
                         {
-                                <option value="@v.IdVehiculo">@v.Placa - @v.Marca</option>
+                            <option value="@c.IdCliente">@c.Nombre</option>
                         }
                     </select>
-
-                    <input type="number" step="0.01" name="Detalles[index].TarifaDiaria" placeholder="Tarifa diaria" class="form-control" />
-
-                    <label>Fecha inicio</label>
-                    <input type="date" name="Detalles[index].FechaInicio" class="form-control" />
-
-                    <label>Fecha fin</label>
-                    <input type="date" name="Detalles[index].FechaFin" class="form-control" />
                 </div>
+
+                <input type="hidden" asp-for="IdEmpleado" />
+
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Sucursal</label>
+                    <select asp-for="IdSucursal" class="form-select">
+                        <option value="">Seleccione...</option>
+                        @foreach (var s in ViewBag.Sucursales)
+                        {
+                            <option value="@s.IdSucursal">@s.Nombre</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========================= DETALLE ========================= -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Detalle del Alquiler</h5>
+            <button type="button" class="btn btn-light btn-sm fw-bold" onclick="agregarFila()">+ Agregar vehículo</button>
+        </div>
+
+        <div class="card-body">
+            <table class="table table-bordered text-center align-middle" id="tablaDetalle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Vehículo</th>
+                        <th>Tarifa diaria</th>
+                        <th>Fecha inicio</th>
+                        <th>Fecha fin</th>
+                        <th>Subtotal</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ========================= TOTALES ========================= -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <div class="row text-end">
+                <div class="col-md-9 fw-bold fs-5">
+                    Subtotal:
+                </div>
+                <div class="col-md-3">
+                    <span id="subtotalGeneral" class="fw-bold">₡0.00</span>
+                </div>
+
+                <div class="col-md-9 fw-bold fs-5">
+                    IVA (13%):
+                </div>
+                <div class="col-md-3">
+                    <span id="ivaGeneral" class="fw-bold">₡0.00</span>
+                </div>
+
+                <div class="col-md-9 fw-bold fs-4 text-primary">
+                    TOTAL:
+                </div>
+                <div class="col-md-3 fs-4 fw-bold text-primary">
+                    <span id="totalGeneral">₡0.00</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========================= BOTÓN GUARDAR ========================= -->
+    <div class="text-end">
+        <button class="btn btn-success btn-lg">Guardar Alquiler</button>
+    </div>
+
+</form>
+
+
+@section Scripts {
+
+    <script>
+
+        // ======================================================
+        // Cargar lista de vehículos UNA SOLA VEZ
+        // ======================================================
+        var VehiculosOriginal = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewBag.Vehiculos));
+
+        // ======================================================
+        // Obtener vehículos disponibles (no seleccionados)
+        // ======================================================
+        function getVehiculosDisponibles() {
+            let seleccionados = Array.from(document.querySelectorAll(".vehiculoSelect"))
+                .map(sel => sel.value)
+                .filter(v => v !== "");
+
+            return VehiculosOriginal.filter(v => !seleccionados.includes(v.idVehiculo.toString()));
+        }
+
+        // ======================================================
+        // Agregar fila nueva
+        // ======================================================
+        function agregarFila() {
+            let index = document.querySelectorAll("#tablaDetalle tbody tr").length;
+
+            let vehiculosDisponibles = getVehiculosDisponibles();
+
+            let options = vehiculosDisponibles.map(v =>
+                `<option value="${v.idVehiculo}" data-tarifa="${v.tarifa}">
+                     ${v.placa} - ${v.marca}
+                 </option>`
+            ).join("");
+
+            let nuevaFila = `
+                <tr class="fila-detalle">
+                    <td>
+                        <select name="Detalles[${index}].IdVehiculo" class="form-select vehiculoSelect">
+                            <option value="">Seleccione</option>
+                            ${options}
+                        </select>
+                    </td>
+
+                    <td>
+                        <input type="number" name="Detalles[${index}].TarifaDiaria"
+                               class="form-control tarifa" readonly />
+                    </td>
+
+                    <td>
+                        <input type="date" name="Detalles[${index}].FechaInicio"
+                               class="form-control fechaInicio" onchange="recalcular()" />
+                    </td>
+
+                    <td>
+                        <input type="date" name="Detalles[${index}].FechaFin"
+                               class="form-control fechaFin" onchange="recalcular()" />
+                    </td>
+
+                    <td><span class="subtotalLinea fw-bold">₡0.00</span></td>
+
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="eliminarFila(this)">X</button>
+                    </td>
+                </tr>
             `;
 
-            let cont = document.getElementById("detalles-container");
-            let index = document.getElementsByClassName("detalle-item").length;
+            document.querySelector("#tablaDetalle tbody")
+                .insertAdjacentHTML("beforeend", nuevaFila);
 
-            html = html.replace(/index/g, index);
-
-            cont.insertAdjacentHTML("beforeend", html);
+            actualizarSelects();
         }
-    </script>
-}
 
+        // ======================================================
+        // Eliminar fila y refrescar selects
+        // ======================================================
+        function eliminarFila(btn) {
+            btn.closest("tr").remove();
+            actualizarSelects();
+            recalcular();
+        }
+
+        // ======================================================
+        // Listener único para tarifa + refrescar selects
+        // ======================================================
+        document.addEventListener("change", function (e) {
+            if (e.target.classList.contains("vehiculoSelect")) {
+                let tarifa = e.target.selectedOptions[0].dataset.tarifa;
+                let fila = e.target.closest("tr");
+                fila.querySelector(".tarifa").value = tarifa;
+
+                actualizarSelects();
+                recalcular();
+            }
+        });
+
+        // ======================================================
+        // Refrescar todos los selects
+        // ======================================================
+        function actualizarSelects() {
+            let disponibles = getVehiculosDisponibles();
+
+            document.querySelectorAll(".vehiculoSelect").forEach(select => {
+
+                let seleccionadoActual = select.value;
+
+                select.innerHTML = `<option value="">Seleccione</option>`;
+
+                disponibles.forEach(v => {
+                    let opt = document.createElement("option");
+                    opt.value = v.idVehiculo;
+                    opt.dataset.tarifa = v.tarifa;
+                    opt.textContent = `${v.placa} - ${v.marca}`;
+                    select.appendChild(opt);
+                });
+
+                if (seleccionadoActual !== "") {
+                    let v = VehiculosOriginal.find(v => v.idVehiculo == seleccionadoActual);
+                    if (v) {
+                        let opt = document.createElement("option");
+                        opt.value = v.idVehiculo;
+                        opt.dataset.tarifa = v.tarifa;
+                        opt.textContent = `${v.placa} - ${v.marca}`;
+                        opt.selected = true;
+                        select.appendChild(opt);
+                    }
+                }
+            });
+        }
+
+        // ======================================================
+        // Recalcular totales
+        // ======================================================
+        function recalcular() {
+
+            let filas = document.querySelectorAll("#tablaDetalle tbody tr");
+            let subtotalGeneral = 0;
+
+            filas.forEach(fila => {
+
+                let tarifa = parseFloat(fila.querySelector(".tarifa").value) || 0;
+                let inicio = fila.querySelector(".fechaInicio").value;
+                let fin = fila.querySelector(".fechaFin").value;
+
+                let dias = 0;
+                if (inicio && fin) {
+                    dias = (new Date(fin) - new Date(inicio)) / (1000 * 60 * 60 * 24);
+                    if (dias < 1) dias = 1;
+                }
+
+                let subtotal = dias * tarifa;
+                subtotalGeneral += subtotal;
+
+                fila.querySelector(".subtotalLinea").innerText = "₡" + subtotal.toFixed(2);
+            });
+
+            let iva = subtotalGeneral * 0.13;
+            let total = subtotalGeneral + iva;
+
+            document.getElementById("subtotalGeneral").innerText = "₡" + subtotalGeneral.toFixed(2);
+            document.getElementById("ivaGeneral").innerText = "₡" + iva.toFixed(2);
+            document.getElementById("totalGeneral").innerText = "₡" + total.toFixed(2);
+        }
+
+    </script>
+
+
+}
