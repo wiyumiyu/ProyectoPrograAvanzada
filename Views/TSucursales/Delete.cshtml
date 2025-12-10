@@ -8,6 +8,13 @@
 
 <h3>¿Está seguro que quiere eliminar?</h3>
 <div>
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
     <h4>Sucursales</h4>
     <hr />
     <dl class="row">

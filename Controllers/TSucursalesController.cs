@@ -52,18 +52,6 @@ namespace ProyectoPrograAvanzada.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdSucursal,Nombre,Telefono,Direccion")] TSucursale tSucursale)
         {
-            // Código original generado por scaffolding:
-            /*
-            if (ModelState.IsValid)
-            {
-                _context.Add(tSucursale);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(tSucursale);
-            */
-
-            // Nuevo código usando Stored Procedure SP_SucursalInsert:
             await _context.Database.ExecuteSqlInterpolatedAsync($@"
                 EXEC SC_AlquilerVehiculos.SP_SucursalInsert
                     @nombre    = {tSucursale.Nombre},
@@ -95,28 +83,6 @@ namespace ProyectoPrograAvanzada.Controllers
             if (id != tSucursale.IdSucursal)
                 return NotFound();
 
-            // Código original generado por scaffolding:
-            /*
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(tSucursale);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TSucursaleExists(tSucursale.IdSucursal))
-                        return NotFound();
-                    else
-                        throw;
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(tSucursale);
-            */
-
-            // Nuevo código usando Stored Procedure SP_SucursalUpdate:
             await _context.Database.ExecuteSqlInterpolatedAsync($@"
                 EXEC SC_AlquilerVehiculos.SP_SucursalUpdate
                     @id_sucursal = {tSucursale.IdSucursal},
@@ -148,18 +114,22 @@ namespace ProyectoPrograAvanzada.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            // Código original generado por scaffolding:
-            /*
-            var tSucursale = await _context.TSucursales.FindAsync(id);
-            if (tSucursale != null)
-            {
-                _context.TSucursales.Remove(tSucursale);
-            }
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-            */
+            // VALIDACIÓN → Evitar eliminar si tiene empleados o alquileres
+            bool tieneEmpleados = await _context.TEmpleados
+                .AnyAsync(e => e.IdSucursal == id);
 
-            // Nuevo código usando Stored Procedure SP_SucursalDelete:
+            bool tieneAlquileres = await _context.TAlquileres
+                .AnyAsync(a => a.IdSucursal == id);
+
+            if (tieneEmpleados || tieneAlquileres)
+            {
+                TempData["ErrorMessage"] =
+                    "No se puede eliminar la sucursal porque tiene empleados o alquileres asociados.";
+
+                return RedirectToAction(nameof(Delete), new { id });
+            }
+
+            // SI NO TIENE RELACIONES → eliminar usando SP
             await _context.Database.ExecuteSqlInterpolatedAsync($@"
                 EXEC SC_AlquilerVehiculos.SP_SucursalDelete
                     @id_sucursal = {id}
