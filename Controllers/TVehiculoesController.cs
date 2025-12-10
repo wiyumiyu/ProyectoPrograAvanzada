@@ -53,6 +53,14 @@ namespace ProyectoPrograAvanzada.Controllers
         {
             ViewData["IdSucursal"] = new SelectList(_context.TSucursales, "IdSucursal", "Nombre");
             ViewData["IdTipo"] = new SelectList(_context.TVehiculosTipos, "IdTipo", "Descripcion");
+            ViewBag.Estados = new List<SelectListItem>
+{
+    new SelectListItem { Value = "Disponible", Text = "Disponible" },
+    new SelectListItem { Value = "Alquilado", Text = "Alquilado" },
+    new SelectListItem { Value = "En reparacion", Text = "En reparación" },
+    new SelectListItem { Value = "Fuera de servicio", Text = "Fuera de servicio" },
+    new SelectListItem { Value = "Reservado", Text = "Reservado" }
+};
             return View();
         }
 

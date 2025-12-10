@@ -1,71 +1,83 @@
 ﻿@model IEnumerable<ProyectoPrograAvanzada.Models.TBitacora>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Bitácora";
 }
 
 <h1>Bitácora</h1>
 
 <p>
-    <a asp-action="Create">Crear Nuevo</a>
+    
 </p>
-<table class="table">
+
+<style>
+    .bitacora-table {
+        table-layout: fixed !important;
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .bitacora-table th,
+        .bitacora-table td {
+            vertical-align: top;
+            padding: 6px;
+        }
+
+        /* Columnas normales */
+        .bitacora-table td,
+        .bitacora-table th {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+    /* Columnas de texto largo (mostrar todo, sin barra horizontal) */
+    .col-larga {
+        max-width: 300px; /* NO crece horizontalmente */
+        white-space: normal !important; /* Permite salto de línea */
+        overflow-y: auto; /* Solo scroll vertical */
+        overflow-x: hidden !important; /* No deja scroll horizontal */
+        height: 120px; /* Ajustable */
+        display: block;
+        word-wrap: break-word; /* Parte palabras largas */
+    }
+</style>
+
+
+<table class="table bitacora-table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Tabla)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Operacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClavePrimaria)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ValoresAntes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ValoresDespues)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UsuarioSql)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Fecha)
-            </th>
-            <th></th>
+            <th>@Html.DisplayNameFor(model => model.Tabla)</th>
+            <th>@Html.DisplayNameFor(model => model.Operacion)</th>
+            <th>@Html.DisplayNameFor(model => model.ClavePrimaria)</th>
+            <th>@Html.DisplayNameFor(model => model.ValoresAntes)</th>
+            <th>@Html.DisplayNameFor(model => model.ValoresDespues)</th>
+            <th>@Html.DisplayNameFor(model => model.UsuarioSql)</th>
+            <th>@Html.DisplayNameFor(model => model.Fecha)</th>
         </tr>
     </thead>
+
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tabla)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Operacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClavePrimaria)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ValoresAntes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ValoresDespues)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsuarioSql)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fecha)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdBitacora">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.IdBitacora">Detalles</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdBitacora">Eliminar</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Tabla</td>
+                <td>@item.Operacion</td>
+                <td>@item.ClavePrimaria</td>
+
+                <td>
+                    <div class="col-larga">@item.ValoresAntes</div>
+                </td>
+
+                <td>
+                    <div class="col-larga">@item.ValoresDespues</div>
+                </td>
+
+                <td>@item.UsuarioSql</td>
+                <td>@item.Fecha</td>
+
+ 
+            </tr>
+        }
     </tbody>
 </table>
