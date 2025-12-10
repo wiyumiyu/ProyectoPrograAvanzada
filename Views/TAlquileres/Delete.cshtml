@@ -1,63 +1,122 @@
 ﻿@model ProyectoPrograAvanzada.Models.TAlquilere
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar Alquiler";
 }
 
-<h1>Delete</h1>
+<div class="container mt-4">
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>TAlquilere</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaInicio)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaInicio)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaFin)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaFin)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Iva)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Iva)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Estado)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Estado)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdClienteNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdClienteNavigation.IdCliente)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdEmpleadoNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdEmpleadoNavigation.IdEmpleado)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdSucursalNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdSucursalNavigation.IdSucursal)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
+    <h2 class="fw-bold text-danger mb-3">Eliminar Alquiler</h2>
+
+    <p class="text-muted">
+        ¿Está seguro que desea eliminar este alquiler? Esta acción no se puede deshacer.
+    </p>
+
+    <!-- ========================================= -->
+    <!-- INFORMACIÓN GENERAL -->
+    <!-- ========================================= -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-danger text-white">
+            <h5 class="mb-0">Información del Alquiler</h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row mb-2">
+                <div class="col-md-4">
+                    <strong>Cliente:</strong><br />
+                    @Model.IdClienteNavigation.Nombre
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Sucursal:</strong><br />
+                    @Model.IdSucursalNavigation.Nombre
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Empleado:</strong><br />
+                    @Model.IdEmpleadoNavigation.Nombre
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-md-4">
+                    <strong>Estado:</strong><br />
+                    @Model.Estado
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Impuesto:</strong><br />
+                    @Model.Iva %
+                </div>
+
+                <div class="col-md-4">
+                    <strong>ID Alquiler:</strong><br />
+                    @Model.IdAlquiler
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ========================================= -->
+    <!-- VEHÍCULOS ALQUILADOS -->
+    <!-- ========================================= -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">Vehículos Asociados</h5>
+        </div>
+
+        <div class="card-body">
+            <table class="table table-striped text-center align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Vehículo</th>
+                        <th>Placa</th>
+                        <th>Marca</th>
+                        <th>Tarifa</th>
+                        <th>Inicio</th>
+                        <th>Fin</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var d in Model.TAlquileresDetalles)
+                    {
+                        <tr>
+                            <td>#@d.IdVehiculo</td>
+                            <td>@d.IdVehiculoNavigation.Placa</td>
+                            <td>@d.IdVehiculoNavigation.Marca</td>
+                            <td>₡@d.TarifaDiaria.ToString("N2")</td>
+                            <td>@d.FechaInicio.ToString("dd/MM/yyyy")</td>
+                            <td>@d.FechaFin.ToString("dd/MM/yyyy")</td>
+                            <td class="fw-bold">₡@d.Subtotal.ToString("N2")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <p class="text-danger fw-bold">
+        ⚠ Al eliminar este alquiler, todos los vehículos asociados volverán automáticamente a estado "Disponible".
+    </p>
+
+
+    <!-- ========================================= -->
+    <!-- BOTONES -->
+    <!-- ========================================= -->
+    <form asp-action="Delete" method="post">
         <input type="hidden" asp-for="IdAlquiler" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+
+        <div class="d-flex justify-content-between mt-4">
+            <a asp-action="Index" class="btn btn-secondary ms-2">Regresar</a>
+
+            <button type="submit" class="btn btn-danger btn-lg">
+                Eliminar Alquiler
+            </button>
+        </div>
     </form>
+
 </div>

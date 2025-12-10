@@ -1,71 +1,49 @@
 ﻿@model IEnumerable<ProyectoPrograAvanzada.Models.TAlquilere>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Alquileres";
 }
 
-<h1>Index</h1>
+<h1>Alquileres</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a href="/TAlquileres/Create">Crear Nuevo</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaInicio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaFin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Iva)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdClienteNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdEmpleadoNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdSucursalNavigation)
-            </th>
+            <th>Cliente</th>
+            <th>Sucursal</th>
+            <th>Empleado</th>
+            <th>IVA (%)</th>
+            <th>Total</th>
+            <th>Estado</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaInicio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaFin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Iva)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdClienteNavigation.IdCliente)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdEmpleadoNavigation.IdEmpleado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdSucursalNavigation.IdSucursal)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdAlquiler">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdAlquiler">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdAlquiler">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            // Calcular totales
+            var subtotal = item.TAlquileresDetalles?.Sum(d => d.Subtotal) ?? 0;
+            var ivaMonto = subtotal * (item.Iva / 100m);
+            var total = subtotal + ivaMonto;
+
+            <tr>
+                <td>@item.IdClienteNavigation?.Nombre</td>
+                <td>@item.IdSucursalNavigation?.Nombre</td>
+                <td>@item.IdEmpleadoNavigation?.Nombre</td>
+                <td>@item.Iva %</td>
+                <td><strong>₡@total.ToString("N2")</strong></td>
+                <td>@item.Estado</td>
+
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.IdAlquiler }) |
+                    @Html.ActionLink("Detalles", "Details", new { id = item.IdAlquiler }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.IdAlquiler })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

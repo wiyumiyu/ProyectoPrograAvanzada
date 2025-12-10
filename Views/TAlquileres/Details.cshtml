@@ -1,68 +1,134 @@
 ﻿@model ProyectoPrograAvanzada.Models.TAlquilere
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles del Alquiler";
 }
 
-<h1>Details</h1>
+<div class="container mt-4">
 
-<a asp-action="GenerarRecibo"
-   asp-route-idAlquiler="@Model.IdAlquiler"
-   class="btn btn-danger mb-3"
-   target="_blank">
-    Generar Recibo PDF
-</a>
+    <h2 class="fw-bold mb-3">Detalles del Alquiler</h2>
 
+    <a class="btn btn-danger mb-4"
+       asp-controller="TAlquileres"
+       asp-action="GenerarRecibo"
+       asp-route-idAlquiler="@Model.IdAlquiler"
+       target="_blank">
+        <i class="bi bi-filetype-pdf me-1"></i> Generar Recibo PDF
+    </a>
 
-<div>
-    <h4>TAlquilere</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaInicio)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaInicio)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaFin)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaFin)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Iva)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Iva)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Estado)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Estado)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdClienteNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdClienteNavigation.IdCliente)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdEmpleadoNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdEmpleadoNavigation.IdEmpleado)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdSucursalNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdSucursalNavigation.IdSucursal)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdAlquiler">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <!-- ========================================= -->
+    <!-- DATOS GENERALES DEL ALQUILER -->
+    <!-- ========================================= -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Información General</h5>
+        </div>
+        <div class="card-body">
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <strong>Cliente:</strong><br />
+                    @Model.IdClienteNavigation.Nombre
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Empleado que atendió:</strong><br />
+                    @Model.IdEmpleadoNavigation.Nombre
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Sucursal:</strong><br />
+                    @Model.IdSucursalNavigation.Nombre
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <strong>Estado:</strong><br />
+                    <span class="badge bg-success">@Model.Estado</span>
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Impuesto aplicado:</strong><br />
+                    @Model.Iva %
+                </div>
+
+                <div class="col-md-4">
+                    <strong>ID del alquiler:</strong><br />
+                    @Model.IdAlquiler
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- DETALLES DE VEHÍCULOS ALQUILADOS -->
+    <!-- ========================================= -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">Vehículos Alquilados</h5>
+        </div>
+        <div class="card-body">
+
+            <table class="table table-striped text-center align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Vehículo</th>
+                        <th>Placa</th>
+                        <th>Marca</th>
+                        <th>Tarifa por día</th>
+                        <th>Fecha inicio</th>
+                        <th>Fecha fin</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var d in Model.TAlquileresDetalles)
+                    {
+                        <tr>
+                            <td>#@d.IdVehiculo</td>
+                            <td>@d.IdVehiculoNavigation.Placa</td>
+                            <td>@d.IdVehiculoNavigation.Marca</td>
+                            <td>₡@d.TarifaDiaria</td>
+                            <td>@d.FechaInicio.ToString("dd/MM/yyyy")</td>
+                            <td>@d.FechaFin.ToString("dd/MM/yyyy")</td>
+                            <td class="fw-bold">₡@d.Subtotal.ToString("N2")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- TOTALES -->
+    <!-- ========================================= -->
+    @{
+        decimal subtotal = Model.TAlquileresDetalles.Sum(x => x.Subtotal);
+        decimal ivaMonto = subtotal * (Model.Iva / 100m);
+        decimal total = subtotal + ivaMonto;
+    }
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body text-end">
+
+            <p class="fs-5 mb-1"><strong>Subtotal:</strong> ₡@subtotal.ToString("N2")</p>
+            <p class="fs-5 mb-1"><strong>IVA (@Model.Iva %):</strong> ₡@ivaMonto.ToString("N2")</p>
+
+            <p class="fs-3 fw-bold text-primary">
+                TOTAL: ₡@total.ToString("N2")
+            </p>
+        </div>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- ACCIONES -->
+    <!-- ========================================= -->
+    <div class="d-flex justify-content-between mt-4">
+        <a href="/TAlquileres/Edit/@Model.IdAlquiler" class="btn btn-warning">Editar</a>
+        <a href="/TAlquileres" class="btn btn-secondary ms-2">Regresar</a>
+    </div>
+
 </div>

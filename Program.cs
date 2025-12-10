@@ -4,17 +4,24 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using ProyectoPrograAvanzada.Services;
 using ProyectoPrograAvanzada.Models;
+using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// ========================================
+// SERVICIOS MVC
+// ========================================
 builder.Services.AddControllersWithViews();
 
-// ADD EF CORE + CONNECTION STRING
+// ========================================
+// EF CORE + CONEXIÓN A BD
+// ========================================
 builder.Services.AddDbContext<DbAlquilerVehiculosContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Agregar servicios de autenticación con cookies
+// ========================================
+// AUTENTICACIÓN CON COOKIES
+// ========================================
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -27,21 +34,44 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
     });
 
-// Agregar servicios de autorización
+// ========================================
+// AUTORIZACIÓN
+// ========================================
 builder.Services.AddAuthorization();
 
-// Agregar Password Hasher de Identity
+// ========================================
+// IDENTITY: Password Hasher
+// ========================================
 builder.Services.AddScoped<IPasswordHasher<TEmpleado>, PasswordHasher<TEmpleado>>();
 
-// Agregar servicio de autenticación personalizado
+// ========================================
+// SERVICIO DE AUTENTICACIÓN PERSONALIZADO
+// ========================================
 builder.Services.AddScoped<AuthService>();
 
-// Agregar HttpContextAccessor para acceder al usuario actual
+// ========================================
+// ACCESO A HttpContext (usuario logueado)
+// ========================================
 builder.Services.AddHttpContextAccessor();
 
+// ========================================
+// QuestPDF: Registro de licencia
+// ========================================
+QuestPDF.Settings.License = LicenseType.Community;
+
+// ========================================
+// REGISTRAR SERVICIO PDF COMO SINGLETON
+// ========================================
+builder.Services.AddSingleton<PdfGeneratorService>();
+
+// ========================================
+// CONSTRUIR APP
+// ========================================
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// ========================================
+// MIDDLEWARES
+// ========================================
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -53,10 +83,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// IMPORTANTE: Authentication debe ir antes de Authorization
-app.UseAuthentication();
+app.UseAuthentication();  // SIEMPRE ANTES DE Authorization
 app.UseAuthorization();
 
+// ========================================
+// RUTAS MVC
+// ========================================
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

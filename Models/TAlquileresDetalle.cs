@@ -22,6 +22,5 @@ public partial class TAlquileresDetalle
     public virtual TAlquilere IdAlquilerNavigation { get; set; } = null!;
 
     public virtual TVehiculo IdVehiculoNavigation { get; set; } = null!;
-
-   
+    
 }
