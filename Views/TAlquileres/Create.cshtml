@@ -37,6 +37,13 @@
                         }
                     </select>
                 </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Impuesto (%)</label>
+                    <input type="number" asp-for="IVA" id="ivaInput"
+                           step="0.01" class="form-control" value="13"
+                           onchange="recalcular()" />
+                    
+                </div>
             </div>
 
         </div>
@@ -78,7 +85,7 @@
                     <span id="subtotalGeneral" class="fw-bold">₡0.00</span>
                 </div>
 
-                <div class="col-md-9 fw-bold fs-5">
+                <div class="col-md-9 fw-bold fs-5" id="labelIVA">
                     IVA (13%):
                 </div>
                 <div class="col-md-3">
@@ -236,7 +243,7 @@
         // ======================================================
         // Recalcular totales
         // ======================================================
-        function recalcular() {
+                function recalcular() {
 
             let filas = document.querySelectorAll("#tablaDetalle tbody tr");
             let subtotalGeneral = 0;
@@ -259,13 +266,24 @@
                 fila.querySelector(".subtotalLinea").innerText = "₡" + subtotal.toFixed(2);
             });
 
-            let iva = subtotalGeneral * 0.13;
+            // ==============================
+            // IVA dinámico
+            // ==============================
+            let ivaInput = document.getElementById("ivaInput").value;
+            let ivaPorcentaje = ivaInput === "" ? 13 : parseFloat(ivaInput);
+
+            // Actualizar label
+            document.getElementById("labelIVA").innerText = `IVA (${ivaPorcentaje}%):`;
+
+            // Calcular IVA y total
+            let iva = subtotalGeneral * (ivaPorcentaje / 100);
             let total = subtotalGeneral + iva;
 
             document.getElementById("subtotalGeneral").innerText = "₡" + subtotalGeneral.toFixed(2);
             document.getElementById("ivaGeneral").innerText = "₡" + iva.toFixed(2);
             document.getElementById("totalGeneral").innerText = "₡" + total.toFixed(2);
         }
+
 
     </script>
 

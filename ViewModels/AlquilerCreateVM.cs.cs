@@ -20,7 +20,8 @@
         }
 
         public decimal Total => Detalles.Sum(x => x.Subtotal);
-        public decimal IVA => Total * 0.13m;
+        //public decimal IVA => Total * 0.13m;
+        public decimal IVA { get; set; }
     }
 
 
