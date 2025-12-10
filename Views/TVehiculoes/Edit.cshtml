@@ -29,7 +29,7 @@
                 <span asp-validation-for="Modelo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Anio" class="control-label"></label>
+                <label asp-for="Anio" class="control-label">Año</label>
                 <input asp-for="Anio" class="form-control" />
                 <span asp-validation-for="Anio" class="text-danger"></span>
             </div>
@@ -39,17 +39,17 @@
                 <span asp-validation-for="Estado" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdTipo" class="control-label"></label>
+                <label asp-for="IdTipo" class="control-label">Tipo</label>
                 <select asp-for="IdTipo" class="form-control" asp-items="ViewBag.IdTipo"></select>
                 <span asp-validation-for="IdTipo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdSucursal" class="control-label"></label>
+                <label asp-for="IdSucursal" class="control-label">Sucursal</label>
                 <select asp-for="IdSucursal" class="form-control" asp-items="ViewBag.IdSucursal"></select>
                 <span asp-validation-for="IdSucursal" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Guardar" class="btn btn-primary" />
             </div>
         </form>
     </div>
