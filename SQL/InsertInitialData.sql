@@ -2,16 +2,9 @@
 borrar sucursales con empleados
 crear empleado con correo default
 
-labels
 
-
-vehiculo
 estado de vehiculo debe ser select
-tipo de vehiculo debe ser select
-texto de idsucursal
 validar año > 1950
-
-hacer alquiler
 
 bitácora, que no crezca hacia el lado derecho
 */
